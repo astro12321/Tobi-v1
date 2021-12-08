@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 ip tuntap add dev tun0 mode tun
 ip link set up dev tun0
