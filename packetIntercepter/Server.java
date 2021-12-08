@@ -11,21 +11,32 @@ public class Server
     private DatagramSocket socket;
     private DatagramPacket client;
 
-    private String helloMsg = "HELLO astro !";
-    private String helloBackMsg = "HI astro !";
-    private static int BUFFERSIZE = 2000;
+    private String syn = "SYN";
+    private String synack = "SYNACK";
+    private String ack = "ACK";
+    private static int BUFFERSIZE = 4096;
 
 
     public Server(int port) throws IOException
     {
         socket = new DatagramSocket(port);
 
-        String helloMsg = receive();
+        String synReceived = receive();
 
-        if (this.helloMsg.equals(helloMsg))
+        if (this.syn.equals(synReceived))
         {
-            System.out.println("Client connected !");
-            send(helloBackMsg);
+            send(synack);
+
+            System.out.println("ici");
+
+            String ackReceived = receive();    
+
+            System.out.println("la");
+
+            if (this.ack.equals(ackReceived))
+            {
+                System.out.println("Client connected !");
+            }
         }
         else
             System.out.println("Wrong hello message :(");

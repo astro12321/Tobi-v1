@@ -1,3 +1,9 @@
+//////////////////////////////
+//****************************
+//1. Si le tun se connecte pas au serveur se reconnecter
+//2. Si receiveFromServer le msgLength == -1, ne pas arreter, faire un compteur et arreter sur un certain nombre de fail
+//****************************
+//////////////////////////////
 //gcc tun.c -o tun && sudo ./tun
 #include <fcntl.h>  //O_RDWR
 #include <string.h> //memset(), memcpy()
@@ -17,7 +23,7 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-#define BUFFERSIZE 2000
+#define BUFFERSIZE 4096
 
 
 int openTUN(char *devname, int *fd)
@@ -48,7 +54,7 @@ int connectToServer(int *sock, struct sockaddr_in *server)
 	server->sin_family = AF_INET;
 	server->sin_port = htons(5000);
 
-    if (connect(*sock, (struct sockaddr *) server , sizeof(*server)) < 0) { perror("connect error"); return 1; } 
+    if (connect(*sock, (struct sockaddr *) server , sizeof(*server)) < 0) { perror("connection error"); return 1; } 
 
     return 0;
 }
@@ -62,33 +68,48 @@ int sendToServer(int *sock, struct sockaddr_in *server, unsigned char msg[])
 }
 
 
-int receiveFromServer(int *sock, struct sockaddr_in *server, char (*sockBuffer)[BUFFERSIZE])
+int receiveFromServer(int *sock, struct sockaddr_in *server, char *sockBuffer) //S'inspirer de bytesToString pour l'array pis le memcpy
 {
-    char tSockBuffer[BUFFERSIZE];
-    int len, n;
+    int len, msgLength;
 
-    n = recvfrom(*sock, (char*) tSockBuffer, BUFFERSIZE, MSG_WAITALL, (struct sockaddr *) server, &len);
+    msgLength = recvfrom(*sock, (char*) sockBuffer, BUFFERSIZE, MSG_WAITALL, (struct sockaddr *) server, &len);
     
-    if (n == -1) { perror("No response from server"); return 1; } //Si un paquet drop toute arrete...
+    if (msgLength == -1) { perror("No response from server"); return 1; } //Si un paquet drop toute arrete...
 
-    tSockBuffer[n] = '\0'; //peut etre inutile
-
-    memcpy(*sockBuffer, tSockBuffer, BUFFERSIZE);
+    sockBuffer[msgLength] = '\0';
 
     return 0;
 }
 
 
-int helloServer(int *sock, struct sockaddr_in *server, char (*sockBuffer)[BUFFERSIZE])
+int helloServer(int *sock, struct sockaddr_in *server, char *sockBuffer)
 {
-    sendToServer(sock, server, "HELLO astro !");
+    sendToServer(sock, server, "SYN");
 
     if ((receiveFromServer(sock, server, sockBuffer)) != 0) return 1;
-    
-    if (strcmp((char *)sockBuffer, "HI astro !") == 0) { printf("Connected to server !\n"); return 0; }
+
+    if (strcmp((char *)sockBuffer, "SYNACK") == 0) 
+    { 
+        printf("Connected to server !\n"); return 0; 
+    }
+
+    sendToServer(sock, server, "ACK");
 
     perror("Wrong return message from server..."); 
     return 1;
+}
+
+
+int bytesToString(int bytesRead, unsigned char *buffer, char *packet)
+{
+    char *p = packet;
+    
+    for (int i = 0; i < bytesRead; i++) 
+    { 
+        p += snprintf(p, sizeof(buffer[i]) + 2, "%02X", buffer[i]);
+    }
+
+    return 0;
 }
 
 
@@ -101,28 +122,32 @@ int main(int argc, char *argv[])
     unsigned char buffer[BUFFERSIZE];
     char sockBuffer[BUFFERSIZE];
 
+    memset(&server, '\0', sizeof(server));
+
     if (openTUN(devname, &fd) == -1) return 1;
 
     printf("Device %s opened\n", devname);
 
-
     if (connectToServer(&sock, &server) == 1) return 1;
-    if (helloServer(&sock, &server, &sockBuffer) == 1) return 1;
-
-
-
-    //return 1;
+    if (helloServer(&sock, &server, sockBuffer) == 1) return 1;
 
     while(1) 
     {
         ind++;
+        memset(buffer, 0, sizeof(buffer)); //Avoid junk in the buffer (dont know if slower, have to test)
 
         bytesRead = read(fd, buffer, sizeof(buffer)); 
-        printf("\n\n%d. Read %d bytes from %s\n", ind, bytesRead, devname);
-        
-        for (int i = 0; i < bytesRead; i++) printf("\\x%02X", buffer[i]);
+    
+        char packet[bytesRead * 2 + 1];
+
+        bytesToString(bytesRead, buffer, packet);
+        printf("String variable contains:\n%s\n\n", packet);
+
+        sendToServer(&sock, &server, packet);
 
         if(write(fd, buffer, bytesRead) < 0) perror("Error writing to tun interface");
+
+        //return 1;
     }
 
     return 0;
