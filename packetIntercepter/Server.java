@@ -11,35 +11,12 @@ public class Server
     private DatagramSocket socket;
     private DatagramPacket client;
 
-    private String syn = "SYN";
-    private String synack = "SYNACK";
-    private String ack = "ACK";
     private static int BUFFERSIZE = 4096;
 
 
     public Server(int port) throws IOException
     {
         socket = new DatagramSocket(port);
-
-        String synReceived = receive();
-
-        if (this.syn.equals(synReceived))
-        {
-            send(synack);
-
-            System.out.println("ici");
-
-            String ackReceived = receive();    
-
-            System.out.println("la");
-
-            if (this.ack.equals(ackReceived))
-            {
-                System.out.println("Client connected !");
-            }
-        }
-        else
-            System.out.println("Wrong hello message :(");
     }
 
 
