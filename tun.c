@@ -23,6 +23,10 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
+#include <errno.h>
+#include <sys/select.h>
+
+
 #define BUFFERSIZE 4096
 
 
@@ -114,7 +118,6 @@ int HexToBytes(const char *buffer)
         ret = n + ret * 16;
     }
     
-    
     return ret;
 }
 
@@ -123,8 +126,8 @@ int main(int argc, char *argv[])
 {
     struct sockaddr_in server;
     char devname[] = "tun0";
-    int fd, sock, bytesRead;
-    int ind;
+    int fd, sock, bytesRead, nwrite, nread;
+    int ind = 0;
     unsigned char buffer[BUFFERSIZE];
     char sockBuffer[BUFFERSIZE];
 
@@ -136,47 +139,96 @@ int main(int argc, char *argv[])
 
     if (connectToServer(&sock, &server) == 1) return 1;
 
+
+
+    //////////////////////////////////
+    int maxfd;
+
+
+    maxfd = (fd > sock)?fd:sock;
+    //////////////////////////////////
+
+
     while(1) 
     {
         ind++;
         memset(buffer, 0, sizeof(buffer)); //Avoid junk in the buffer (dont know if slower, have to test)
 
-        bytesRead = read(fd, buffer, sizeof(buffer)); 
-    
-        char packet[bytesRead * 2 + 1];
 
-        bytesToHex(bytesRead, buffer, packet);
-        //printf("String variable contains:\n%s\n\n", packet);
+        //////////////////////////////////
 
-        sendToServer(&sock, &server, packet);
+        /*int ret;
+        fd_set rd_set;
 
+        FD_ZERO(&rd_set);
+        FD_SET(fd, &rd_set); 
+        FD_SET(sock, &rd_set);
 
-        if ((receiveFromServer(&sock, &server, sockBuffer)) != 0) return 1;
-        //printf("String variable contains:\n%s\n\n", sockBuffer);
+        ret = select(maxfd + 1, &rd_set, NULL, NULL, NULL);
 
-        
-        //////////////////
-
-        const char *in = sockBuffer;
-        char out[bytesRead];
-
-        for(int i = 0; i < bytesRead; i++)
+        if (ret < 0 && errno == EINTR)
         {
-            out[i] = HexToBytes(in);
-            in += 2;
+            continue;
         }
 
-        memset(sockBuffer, 0, BUFFERSIZE);
+        if (ret < 0) 
+        {
+            perror("select()");
+            exit(1);
+        }*/
 
 
 
-        //////////////////
+
+
+        
+    
+        //////////////////////////////////
+
+        //if(FD_ISSET(fd, &rd_set))
+        //{
+            ///////////////////////////////////////////////////////////////Read
+            printf("\n%d. Reading card and sending to socket", ind);
+
+            bytesRead = read(fd, buffer, sizeof(buffer)); 
+        
+            char packet[bytesRead * 2 + 1];
+            bytesToHex(bytesRead, buffer, packet);
+
+            nwrite = write(sock, packet, sizeof(packet));
+            ///////////////////////////////////////////////////////////////
+        //}
+
+        //if(FD_ISSET(sock, &rd_set)) 
+        //{
+            ///////////////////////////////////////////////////////////////Write
+            printf("\n%d. Reading socket and writing on card...", ind);
+
+            nread = read(sock, sockBuffer, BUFFERSIZE);
+
+            //////////////////
+
+            const char *in = sockBuffer;
+            char out[bytesRead];
+
+            for(int i = 0; i < bytesRead; i++)
+            {
+                out[i] = HexToBytes(in);
+                in += 2;
+            }
+
+            //memset(sockBuffer, 0, sizeof(sockBuffer));
+
+            if(write(fd, out, bytesRead) < 0) perror("Error writing to tun interface");
+            ///////////////////////////////////////////////////////////////
+        //}
+
+        
+
+        
 
 
 
-
-        if(write(fd, out, bytesRead) < 0) perror("Error writing to tun interface");
-        //if(write(fd, test, bytesRead) < 0) perror("Error writing to tun interface");
     }
 
     return 0;
