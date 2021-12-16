@@ -5,7 +5,7 @@
 #include <iomanip>
 
 #include "layer.hpp"
-#include "transport.hpp"
+#include "network.hpp"
 
 //using namespace std;
 
@@ -15,5 +15,5 @@ Layer::Layer(std::string packetHex)
     this->packetHex = packetHex;
 
     //Giving each layers their bytes of the packet
-    this->transport = Transport(packetHex);
+    this->network = Network(packetHex);
 }

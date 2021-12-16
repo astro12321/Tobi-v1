@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "transport.hpp"
+#include "network.hpp"
 #include "layer.hpp"
 
 #define BUFFERSIZE 4096

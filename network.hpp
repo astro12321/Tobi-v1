@@ -1,5 +1,5 @@
-#ifndef TRANSPORT_HPP
-#define TRANSPORT_HPP
+#ifndef NETWORK_HPP
+#define NETWORK_HPP
 
 #include <iostream>
 #include <string>
@@ -11,14 +11,14 @@
 //using namespace std;
 
 
-class Transport 
+class Network 
 {       
     public:
         std::string hex;
         Ipv4 ipv4;
 
-        Transport() = default;
-        Transport(std::string hex);
+        Network() = default;
+        Network(std::string hex);
 };
 
 

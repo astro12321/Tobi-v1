@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "transport.hpp"
+#include "network.hpp"
 
 //using namespace std;
 
@@ -15,7 +15,7 @@ class Layer
 {       
     public:
         std::string packetHex;
-        Transport transport;
+        Network network;
 
         Layer() = default;
         Layer(std::string packetHex);

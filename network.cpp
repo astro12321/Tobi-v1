@@ -4,13 +4,13 @@
 #include <sstream>
 #include <iomanip>
 
-#include "transport.hpp"
+#include "network.hpp"
 #include "ipv4.hpp"
 
 //using namespace std;
 
 
-Transport::Transport(std::string hex)
+Network::Network(std::string hex)
 {
     this->hex = hex;
 

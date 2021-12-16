@@ -8,7 +8,7 @@
 #include <linux/if_tun.h>
 
 #include "packet.hpp"
-#include "transport.hpp"
+#include "network.hpp"
 
 #define BUFFERSIZE 4096
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 
         Packet pkt(ind, buffer, bytesRead);
 
-        std::cout << pkt.index << ". Packet read: " << pkt.hex << "\n\n";
+        std::cout << pkt.index << ". Packet read: " << pkt.layer.network.ipv4.hex.hex << "\n\n";
 
         if(write(fd, pkt.bytes, bytesRead) < 0) perror("Error writing to tun interface");
     }
