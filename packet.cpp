@@ -6,6 +6,7 @@
 
 #include "packet.hpp"
 #include "network.hpp"
+#include "operations.hpp"
 
 #define BUFFERSIZE 4096
 
@@ -18,18 +19,7 @@ Packet::Packet(int ind, unsigned char *buffer, int bytesRead)
     index = ind;
     length = bytesRead;
 
-    this->hex = bytesToHex(bytes, length);
+    this->hex = operations::bytesToHex(bytes, length);
+    
     this->layer = Layer(hex);
-}
-
-
-std::string Packet::bytesToHex(unsigned char *bytes, int len)
-{
-    std::stringstream ss;
-    ss << std::hex;
-
-    for (int i = 0; i < len; ++i)
-        ss << std::setw(2) << std::setfill('0') << (int)bytes[i];
-
-    return ss.str();
 }

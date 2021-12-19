@@ -2,7 +2,8 @@
 #define LAYER_HPP
 
 #include <iostream>
-#include <string>
+#include <stdio.h>
+#include <string.h>
 #include <sstream>
 #include <iomanip>
 
@@ -14,11 +15,13 @@
 class Layer 
 {       
     public:
-        std::string packetHex;
         Network network;
 
         Layer() = default;
         Layer(std::string packetHex);
+
+    private:
+        std::string findNetworkHex(std::string packetHex);
 };
 
 

@@ -24,9 +24,6 @@ class Packet
         Layer layer;
 
         Packet(int ind, unsigned char *buf, int br);
-
-    private:
-        std::string bytesToHex(unsigned char *bytes, int len);
 };
 
 

@@ -1,4 +1,4 @@
-//g++ -o tobi tobi.cpp packet.cpp transport.cpp layer.cpp ipv4.cpp && sudo ./tobi
+//g++ -o tobi *.cpp && sudo ./tobi
 #include <iostream>
 #include <string.h>
 #include <unistd.h>
@@ -51,7 +51,15 @@ int main(int argc, char *argv[])
 
         Packet pkt(ind, buffer, bytesRead);
 
-        std::cout << pkt.index << ". Packet read: " << pkt.layer.network.ipv4.hex.hex << "\n\n";
+        std::cout << "\n------------------------------------------------\n";
+        std::cout << pkt.index << ". Packet read: " << pkt.hex << "\n";
+        std::cout << "- Network part: " << pkt.layer.network.hex << "\n";
+        std::cout << "- Source IP: " << pkt.layer.network.ipv4.source << "\n";
+        std::cout << "- Dest IP: " << pkt.layer.network.ipv4.dest << "\n";
+        std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";
+        std::cout << "- Protocol: " << pkt.layer.network.ipv4.protocol << "\n";
+        std::cout << "- Packet length: " << pkt.length << "\n";
+        std::cout << "------------------------------------------------\n\n";
 
         if(write(fd, pkt.bytes, bytesRead) < 0) perror("Error writing to tun interface");
     }
