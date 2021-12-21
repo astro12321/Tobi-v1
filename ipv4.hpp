@@ -18,7 +18,7 @@ namespace ipv4 //Namespace because this Hex class will have fields that are uniq
             std::string source;
             std::string dest;
             std::string ttl;
-            std::string protocol;
+            std::string transportProt;
 
             Hex() = default;
             Hex(std::string hex);
@@ -34,14 +34,14 @@ class Ipv4
         std::string source;
         std::string dest;
         int ttl;
-        std::string protocol;
+        std::string transportProt;
 
         Ipv4() = default;
         Ipv4(std::string hexStr);
     
     private:
         std::string getIp(std::string hex);
-        std::string getProtocol(std::string hex);
+        std::string getTransportProt(std::string hex);
 };
 
 

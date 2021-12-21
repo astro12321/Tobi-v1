@@ -7,19 +7,17 @@
 #include "packet.hpp"
 #include "network.hpp"
 #include "operations.hpp"
+#include "hex.hpp"
 
 #define BUFFERSIZE 4096
 
 //using namespace std;
 
 
-Packet::Packet(int ind, unsigned char *buffer, int bytesRead)
+Packet::Packet(int ind, class::hex hex)
 {
-    memcpy(bytes, buffer, BUFFERSIZE);
-    index = ind;
-    length = bytesRead;
+    this->index = ind;
+    this->hex = hex;
 
-    this->hex = operations::bytesToHex(bytes, length);
-    
-    this->layer = Layer(hex);
+    this->layer = Layer(hex.to_string());
 }

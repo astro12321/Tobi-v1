@@ -12,8 +12,11 @@
 class Transport 
 {       
     public:
+        std::string protocol;
+        std::string hex;
+
         Transport() = default;
-        Transport(std::string hex);
+        Transport(std::string hex, std::string protocol);
 };
 
 

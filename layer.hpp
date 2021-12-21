@@ -8,6 +8,8 @@
 #include <iomanip>
 
 #include "network.hpp"
+#include "transport.hpp"
+#include "hex.hpp"
 
 //using namespace std;
 
@@ -16,12 +18,14 @@ class Layer
 {       
     public:
         Network network;
+        Transport transport;
 
         Layer() = default;
-        Layer(std::string packetHex);
+        Layer(hex hex);
 
     private:
-        std::string findNetworkHex(std::string packetHex);
+        std::string findNetworkHex(hex hex);
+        std::string findTransportHex(hex hex, std::string protocol);
 };
 
 

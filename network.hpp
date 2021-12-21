@@ -16,6 +16,7 @@ class Network
     public:
         std::string hex;
         Ipv4 ipv4;
+        std::string transportProt;
 
         Network() = default;
         Network(std::string hex);

@@ -17,7 +17,7 @@ Ipv4::Ipv4(std::string hexStr)
     this->source = getIp(hex.source);
     this->dest = getIp(hex.dest);
     this->ttl = operations::hexToDec(hex.ttl);
-    this->protocol = getProtocol(hex.protocol);
+    this->transportProt = getTransportProt(hex.transportProt);
 }
 
 
@@ -34,7 +34,7 @@ std::string Ipv4::getIp(std::string hex)
 }
 
 
-std::string Ipv4::getProtocol(std::string hex)
+std::string Ipv4::getTransportProt(std::string hex)
 {
     int prot = operations::hexToDec(hex);
 
@@ -56,7 +56,7 @@ namespace ipv4
         this->source = hex.substr(12 * 2, 8);
         this->dest = hex.substr(16 * 2, 8);
         this->ttl = hex.substr(8 * 2, 2);
-        this->protocol = hex.substr(9 * 2, 2);
+        this->transportProt = hex.substr(9 * 2, 2);
     }
 
 }

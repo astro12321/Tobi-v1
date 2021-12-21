@@ -20,6 +20,7 @@ Network::Network(std::string hex)
 
     if (ipVersion == 4) {
         this->ipv4 = Ipv4(hex);
+        this->transportProt = ipv4.transportProt;
     }
 
 }

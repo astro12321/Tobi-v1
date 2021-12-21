@@ -8,6 +8,7 @@
 
 #include "network.hpp"
 #include "layer.hpp"
+#include "hex.hpp"
 
 #define BUFFERSIZE 4096
 
@@ -17,13 +18,11 @@
 class Packet 
 {       
     public:
-        unsigned char bytes[BUFFERSIZE];
         int index;
-        int length;
-        std::string hex; //Could maybe do a Hex class for the packet (in it's own namespace)
         Layer layer;
+        class::hex hex;
 
-        Packet(int ind, unsigned char *buf, int br);
+        Packet(int ind, class::hex hex);
 };
 
 

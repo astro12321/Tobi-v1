@@ -10,7 +10,8 @@
 //using namespace std;
 
 
-Transport::Transport(std::string hex)
+Transport::Transport(std::string hex, std::string protocol)
 {
-    
+    this->protocol = protocol;
+    this->hex = hex;
 }

@@ -10,6 +10,8 @@
 #include "packet.hpp"
 #include "network.hpp"
 
+#include "hex.hpp"/////////////////////////////
+
 #define BUFFERSIZE 4096
 
 //using namespace std;
@@ -49,7 +51,8 @@ int main(int argc, char *argv[])
 
         if (bytesRead < 0) perror("Error reading from tun interface");
 
-        Packet pkt(ind, buffer, bytesRead);
+        hex packetHex = hex(buffer, bytesRead);
+        Packet pkt(ind, packetHex);
 
         std::cout << "\n------------------------------------------------\n";
         std::cout << pkt.index << ". Packet read: " << pkt.hex << "\n";
@@ -57,11 +60,12 @@ int main(int argc, char *argv[])
         std::cout << "- Source IP: " << pkt.layer.network.ipv4.source << "\n";
         std::cout << "- Dest IP: " << pkt.layer.network.ipv4.dest << "\n";
         std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";
-        std::cout << "- Protocol: " << pkt.layer.network.ipv4.protocol << "\n";
-        std::cout << "- Packet length: " << pkt.length << "\n";
+        std::cout << "- Protocol: " << pkt.layer.network.transportProt << "\n";
+        std::cout << "- Packet length: " << pkt.hex.length() << "\n";
+        std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";
         std::cout << "------------------------------------------------\n\n";
 
-        if(write(fd, pkt.bytes, bytesRead) < 0) perror("Error writing to tun interface");
+        if(write(fd, pkt.hex.bytes(), bytesRead) < 0) perror("Error writing to tun interface");
     }
 
 }
