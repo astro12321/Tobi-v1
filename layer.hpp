@@ -24,8 +24,8 @@ class Layer
         Layer(hex hex);
 
     private:
-        std::string findNetworkHex(hex hex);
-        std::string findTransportHex(hex hex, std::string protocol);
+        hex findNetworkHex(hex hex);
+        hex findTransportHex(hex hex, std::string protocol);
 };
 
 

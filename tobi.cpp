@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
 
         std::cout << "\n------------------------------------------------\n";
         std::cout << pkt.index << ". Packet read: " << pkt.hex << "\n";
-        std::cout << "- Network part: " << pkt.layer.network.hex << "\n";
+        std::cout << "- Network part: " << pkt.layer.network.h.to_string() << "\n";
         std::cout << "- Source IP: " << pkt.layer.network.ipv4.source << "\n";
         std::cout << "- Dest IP: " << pkt.layer.network.ipv4.dest << "\n";
         std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";

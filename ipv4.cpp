@@ -5,39 +5,27 @@
 #include <iomanip>
 
 #include "ipv4.hpp"
-#include "operations.hpp"
+#include "hex.hpp"
 
 //using namespace std;
 
 
-Ipv4::Ipv4(std::string hexStr)
+Ipv4::Ipv4(::hex hex)
 {
-    this->hex = ipv4::Hex(hexStr);
+    this->hex = ipv4::Hex(hex);
 
-    this->source = getIp(hex.source);
-    this->dest = getIp(hex.dest);
-    this->ttl = operations::hexToDec(hex.ttl);
-    this->transportProt = getTransportProt(hex.transportProt);
+    this->source = getIp(this->hex.source);
+    this->dest = getIp(this->hex.dest);
+    this->ttl = this->hex.ttl.to_dec();
+    this->transportProt = getTransportProt(this->hex.transportProt.to_dec());
 }
 
 
-std::string Ipv4::getIp(std::string hex)
+std::string Ipv4::getIp(::hex hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
+
+
+std::string Ipv4::getTransportProt(int prot)
 {
-    int ipByte1 = operations::hexToDec(hex.substr(0, 2));
-    int ipByte2 = operations::hexToDec(hex.substr(2, 2));
-    int ipByte3 = operations::hexToDec(hex.substr(4, 2));
-    int ipByte4 = operations::hexToDec(hex.substr(6, 2));
-    
-    std::string ip = std::to_string(ipByte1) + "." + std::to_string(ipByte2) + "." + std::to_string(ipByte3) + "." + std::to_string(ipByte4);
-
-    return ip;
-}
-
-
-std::string Ipv4::getTransportProt(std::string hex)
-{
-    int prot = operations::hexToDec(hex);
-
     switch(prot)
     {
         case 1: return "ICMP";
@@ -50,13 +38,13 @@ std::string Ipv4::getTransportProt(std::string hex)
 
 namespace ipv4
 {
-    Hex::Hex(std::string hex)
+    Hex::Hex(::hex hex)
     {
         this->hex = hex;
-        this->source = hex.substr(12 * 2, 8);
-        this->dest = hex.substr(16 * 2, 8);
-        this->ttl = hex.substr(8 * 2, 2);
-        this->transportProt = hex.substr(9 * 2, 2);
+        this->source = hex.substr(12, 4);
+        this->dest = hex.substr(16, 4);
+        this->ttl = hex[8];
+        this->transportProt = hex[9];
     }
 
 }

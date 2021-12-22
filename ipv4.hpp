@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include "hex.hpp"
+
 //using namespace std;
 
 
@@ -14,14 +16,14 @@ namespace ipv4 //Namespace because this Hex class will have fields that are uniq
     class Hex
     {       
         public:
-            std::string hex;
-            std::string source;
-            std::string dest;
-            std::string ttl;
-            std::string transportProt;
+            ::hex hex;
+            ::hex source;
+            ::hex dest;
+            byte ttl;
+            byte transportProt;
 
             Hex() = default;
-            Hex(std::string hex);
+            Hex(::hex hex);
     };
 
 }
@@ -37,11 +39,11 @@ class Ipv4
         std::string transportProt;
 
         Ipv4() = default;
-        Ipv4(std::string hexStr);
+        Ipv4(::hex hex);
     
     private:
-        std::string getIp(std::string hex);
-        std::string getTransportProt(std::string hex);
+        std::string getIp(::hex hex);
+        std::string getTransportProt(int prot);
 };
 
 

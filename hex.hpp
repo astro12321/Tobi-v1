@@ -1,4 +1,4 @@
-//Custom data type
+//Custom data types
 #ifndef HEX_HPP
 #define HEX_HPP
 
@@ -11,28 +11,23 @@
 //using namespace std;
 
 
-class hex 
+class byte
 {
-    public:
-        hex() = default;
-        hex(const char *hex);
-        hex(std::string hex);
-        hex(char hex);
-        hex(unsigned char *bytes, int len);
+    private:
+        std::string b;
 
-        int length();
-        int numberOfBytes();
+    public:
+        byte();
+        byte(std::string byte);
         int to_dec();
         std::string to_string();
-        hex first();
-        hex last();
-        unsigned char *bytes();
-        hex substr(int start, int len);
+        byte first();
+        byte last();
+};
 
-        friend std::ostream &operator<<(std::ostream& os, const hex& hex);
-        hex &operator=(char *hex);
-        hex operator[](int index);
-        
+
+class hex 
+{
     private:
         std::string h;
 
@@ -40,6 +35,22 @@ class hex
         unsigned char *b;
         int len;
 
+    public:
+        hex();
+        hex(const char *hex);
+        hex(std::string hex);
+        hex(unsigned char *bytes, int len);
+
+        int length();
+        int numberOfBytes();
+        int to_dec();
+        std::string to_string();
+        unsigned char *bytes();
+        hex substr(int start, int len);
+
+        friend std::ostream &operator<<(std::ostream& os, const hex& hex);
+        hex &operator=(char *hex);
+        byte operator[](int index);
 };
 
 

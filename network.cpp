@@ -6,20 +6,20 @@
 
 #include "network.hpp"
 #include "ipv4.hpp"
-#include "operations.hpp"
+#include "hex.hpp"
 
 //using namespace std;
 
 
-Network::Network(std::string hex)
+Network::Network(hex h)
 {
-    this->hex = hex;
+    this->h = h;
 
     //Attributing the transport header to the good protocol
-    int ipVersion = operations::hexToDec(hex[0]);
+    int ipVersion = h[0].first().to_dec();
 
     if (ipVersion == 4) {
-        this->ipv4 = Ipv4(hex);
+        this->ipv4 = Ipv4(h);
         this->transportProt = ipv4.transportProt;
     }
 

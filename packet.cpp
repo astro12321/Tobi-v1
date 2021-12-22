@@ -6,7 +6,6 @@
 
 #include "packet.hpp"
 #include "network.hpp"
-#include "operations.hpp"
 #include "hex.hpp"
 
 #define BUFFERSIZE 4096
