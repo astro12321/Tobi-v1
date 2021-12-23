@@ -26,9 +26,9 @@ class byte
 };
 
 
-class hex 
+class hex
 {
-    private:
+    protected:
         std::string h;
 
         //evitate to recalculate each time a packet comes in
@@ -37,6 +37,7 @@ class hex
 
     public:
         hex();
+        hex(const hex &hex);
         hex(const char *hex);
         hex(std::string hex);
         hex(unsigned char *bytes, int len);

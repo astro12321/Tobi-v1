@@ -1,4 +1,5 @@
 //g++ -o tobi *.cpp && sudo ./tobi
+//sudo valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./tobi
 #include <iostream>
 #include <string.h>
 #include <unistd.h>
@@ -9,6 +10,9 @@
 
 #include "packet.hpp"
 #include "network.hpp"
+
+#include <stdio.h>      /* printf, scanf, NULL */
+#include <stdlib.h>     /* malloc, free, rand */
 
 #include "hex.hpp"/////////////////////////////
 
@@ -55,17 +59,18 @@ int main(int argc, char *argv[])
         Packet pkt(ind, packetHex);
 
         std::cout << "\n------------------------------------------------\n";
-        std::cout << pkt.index << ". Packet read: " << pkt.hex << "\n";
-        std::cout << "- Network part: " << pkt.layer.network.h.to_string() << "\n";
+        std::cout << pkt.index << ". Packet read: " << pkt.getHex().to_string() << "\n";
+        /*std::cout << "- Network part: " << pkt.layer.network.h.to_string() << "\n";
         std::cout << "- Source IP: " << pkt.layer.network.ipv4.source << "\n";
         std::cout << "- Dest IP: " << pkt.layer.network.ipv4.dest << "\n";
-        std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";
-        std::cout << "- Protocol: " << pkt.layer.network.transportProt << "\n";
+        //std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";
+        //std::cout << "- Protocol: " << pkt.layer.network.transportProt << "\n";
         std::cout << "- Packet length: " << pkt.hex.length() << "\n";
-        std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";
+        //std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";*/
         std::cout << "------------------------------------------------\n\n";
 
-        if(write(fd, pkt.hex.bytes(), bytesRead) < 0) perror("Error writing to tun interface");
+        if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");
     }
+
 
 }

@@ -11,13 +11,13 @@
 //using namespace std;
 
 
-Layer::Layer(hex h)
+Layer::Layer(hex &pktHex)
 {
     //Giving each layers their bytes of the packet
 
     //Network layer
-    hex networkHex = findNetworkHex(h);
-    this->network = Network(networkHex.to_string());
+    hex networkHex = findNetworkHex(pktHex);
+    this->network = Network(networkHex);
 
     /*//Transport layer
     std::string transportProt = network.transportProt;
@@ -27,33 +27,33 @@ Layer::Layer(hex h)
 }
 
 
-hex Layer::findNetworkHex(hex hex)
+hex Layer::findNetworkHex(hex &pktHex)
 {
-    int ipVersion = hex[0].first().to_dec();
+    int ipVersion = pktHex[0].first().to_dec();
     
-    if (ipVersion == 4) return hex.substr(0, 20);
+    if (ipVersion == 4) return pktHex.substr(0, 20);
 
     throw std::invalid_argument("Not an ipv4 packet");
 }
 
 
-hex Layer::findTransportHex(hex hex, std::string protocol)
+hex Layer::findTransportHex(hex &pktHex, std::string protocol)
 {
     if (protocol == "TCP")
     {
-        int tcpHeaderLen = hex[12].first().to_dec();
+        int tcpHeaderLen = pktHex[12].first().to_dec();
 
-        return hex.substr(0, tcpHeaderLen * 4);
+        return pktHex.substr(0, tcpHeaderLen * 4);
     }
 
     else if (protocol == "UDP")
     {
-        return hex.substr(0, 8);
+        return pktHex.substr(0, 8);
     }
 
     else if (protocol == "ICMP")
     {
-        return hex.substr(0, hex.numberOfBytes());
+        return pktHex.substr(0, pktHex.numberOfBytes());
     }
 
     throw std::invalid_argument("What protocol is this ?");

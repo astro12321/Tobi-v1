@@ -13,10 +13,12 @@
 //using namespace std;
 
 
-Packet::Packet(int ind, class::hex hex)
+Packet::Packet(int ind, hex &hex)
 {
     this->index = ind;
-    this->hex = hex;
-
-    this->layer = Layer(hex.to_string());
+    this->h = hex;
+    this->layer = Layer(hex);
 }
+
+
+hex &Packet::getHex() { return h; }

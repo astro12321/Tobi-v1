@@ -20,7 +20,7 @@ class Network
         std::string transportProt;
 
         Network() = default;
-        Network(hex h);
+        Network(hex &hex);
 };
 
 

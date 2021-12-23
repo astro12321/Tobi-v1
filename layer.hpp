@@ -21,11 +21,11 @@ class Layer
         Transport transport;
 
         Layer() = default;
-        Layer(hex hex);
+        Layer(hex &pktHex);
 
     private:
-        hex findNetworkHex(hex hex);
-        hex findTransportHex(hex hex, std::string protocol);
+        hex findNetworkHex(hex &hex);
+        hex findTransportHex(hex &hex, std::string protocol);
 };
 
 

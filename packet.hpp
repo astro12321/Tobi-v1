@@ -20,9 +20,13 @@ class Packet
     public:
         int index;
         Layer layer;
-        class::hex hex;
 
-        Packet(int ind, class::hex hex);
+        Packet(int ind, hex &hex);
+
+        hex &getHex();
+
+    private:
+        hex h;
 };
 
 

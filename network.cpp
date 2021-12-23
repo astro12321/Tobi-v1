@@ -11,15 +11,15 @@
 //using namespace std;
 
 
-Network::Network(hex h)
+Network::Network(hex &hex)
 {
-    this->h = h;
+    this->h = hex;
 
     //Attributing the transport header to the good protocol
-    int ipVersion = h[0].first().to_dec();
+    int ipVersion = hex[0].first().to_dec();
 
     if (ipVersion == 4) {
-        this->ipv4 = Ipv4(h);
+        this->ipv4 = Ipv4(hex);
         this->transportProt = ipv4.transportProt;
     }
 
