@@ -13,22 +13,24 @@
 //#include "transport.hpp"//////////////////////////
 #include "hex.hpp"
 
-//using namespace std;
-
 
 class Layer
 {
-    public:
-        std::shared_ptr<Network> network;
-        //Transport transport;
+    private:
+        int status;
 
+        std::unique_ptr<Network> network;
+
+        std::unique_ptr<Network> findNetworkProt(hex &hex);
+        hex findTransportHex(hex &hex, std::string protocol);
+        int setStatus();
+    
+    public:
         Layer() = default;
         Layer(hex &pktHex);
 
-    private:
-        std::shared_ptr<Network> findNetworkProt(hex &hex);
-        Network findNetworkProtWORKING(hex &hex);
-        hex findTransportHex(hex &hex, std::string protocol);
+        int getStatus();
+        Network &getNetwork();
 };
 
 

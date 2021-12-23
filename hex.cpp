@@ -4,25 +4,11 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
-#include <math.h>
 
 #include "hex.hpp"
 
-//using namespace std;
-
 
 //Constructors
-hex::hex(const char *hex)
-{
-    std::string h = hex;
-
-    if (h.length() % 2 != 0)
-        throw std::invalid_argument("the hex string must have an even number length");
-
-    this->h = h;
-}
-
-
 hex::hex() { this->h = ""; }
 
 
@@ -78,7 +64,7 @@ hex &hex::operator=(char *hex) { return *this; }
 std::ostream &operator<<(std::ostream& os, const hex& hex) { return os << hex.h; }
 
 //return hex values by bytes (so by pairs)
-byte hex::operator[](int ind)
+byte hex::operator[](int ind) 
 {
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);
@@ -86,6 +72,7 @@ byte hex::operator[](int ind)
 
 
 ////////////////////////////////////////////////////////////////////////
+
 
 byte::byte() { this->b = "00"; }
 

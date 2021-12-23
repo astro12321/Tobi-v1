@@ -6,9 +6,6 @@
 
 #include "ipv4.hpp"
 #include "hex.hpp"
-
-//using namespace std;
-
 #include "network.hpp"
 
 
@@ -19,7 +16,7 @@ Frame::Frame(hex &he): hex(he)
     this->source = he.substr(12, 4);
     this->dest = he.substr(16, 4);
     this->ttl = he[8];
-    this->transportProt = he[9];
+    this->transportProto = he[9];
 }
 
 //}
@@ -27,19 +24,20 @@ Frame::Frame(hex &he): hex(he)
 
 Ipv4::Ipv4(hex &hex): Network(hex)
 {
+    this->setNetworkProto(4);
     this->frame = Frame(hex); //ipv4::Frame(hex);
-    ///////////
-
-    this->source = getIp(this->frame.source);
-    this->dest = getIp(this->frame.dest);
     this->ttl = this->frame.ttl.to_dec();
-    this->transportProt = getTransportProt(this->frame.transportProt.to_dec());
+    
+    //Setting parent variable
+    this->setSource(getIp(this->frame.source));
+    this->setDest(getIp(this->frame.dest));
+    this->setTransportProto(this->frame.transportProto.to_dec());
 }
 
 
 std::string Ipv4::getIp(hex &hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
 
-
+/*
 std::string Ipv4::getTransportProt(int prot)
 {
     switch(prot)
@@ -49,10 +47,7 @@ std::string Ipv4::getTransportProt(int prot)
         case 17: return "UDP";
         default: return "unknown";
     }
-}
+}*/
 
 
-int Ipv4::getTTL()
-{
-    return this->ttl;
-}
+int Ipv4::getTTL() { return this->ttl; }

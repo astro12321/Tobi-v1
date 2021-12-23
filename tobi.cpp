@@ -10,15 +10,8 @@
 
 #include "packet.hpp"
 #include "network.hpp"
-
-#include <stdio.h>      /* printf, scanf, NULL */
-#include <stdlib.h>     /* malloc, free, rand */
-
-#include "hex.hpp"/////////////////////////////
-
-#define BUFFERSIZE 4096
-
-//using namespace std;
+#include "hex.hpp"
+#include "defaults.hpp"
 
 
 int opentun(char *devname, int *fd)
@@ -58,16 +51,23 @@ int main(int argc, char *argv[])
         hex packetHex = hex(buffer, bytesRead);
         Packet pkt(ind, packetHex);
 
+
         std::cout << "\n------------------------------------------------\n";
-        std::cout << pkt.index << ". Packet read: " << pkt.getHex().to_string() << "\n";
-        std::cout << "- Network part: " << pkt.layer.network->h.to_string() << "\n";
-        std::cout << "- Source IP: " << pkt.layer.network->source << "\n";
-        std::cout << "- Dest IP: " << pkt.layer.network->dest << "\n";
-        std::cout << "- TTL: " << pkt.layer.network->getTTL() << "\n";
-        std::cout << "- Protocol: " << pkt.layer.network->transportProt << "\n";
-        //std::cout << "- Packet length: " << pkt.hex.length() << "\n";
-        //std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";
+        
+        std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
+
+        if (pkt.getStatus() != undef) {
+            std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
+            std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
+            std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
+            std::cout << "- TTL: " << pkt.getLayer().getNetwork().getTTL() << "\n";
+            std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
+            std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
+            std::cout << "- Status: " << pkt.getStatus() << "\n";
+        }
+
         std::cout << "------------------------------------------------\n\n";
+
 
         if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");
     }

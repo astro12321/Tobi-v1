@@ -8,8 +8,6 @@
 #include <sstream>
 #include <iomanip>
 
-//using namespace std;
-
 
 class byte
 {
@@ -28,13 +26,11 @@ class byte
 
 class hex
 {
-    protected:
+    private:
         std::string h;
-
-        //evitate to recalculate each time a packet comes in
         unsigned char *b;
         int len;
-
+    
     public:
         hex();
         hex(const hex &hex);

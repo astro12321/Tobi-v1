@@ -6,26 +6,36 @@
 #include <sstream>
 #include <iomanip>
 
-//#include "ipv4.hpp"
 #include "hex.hpp"
-
-//using namespace std;
 
 
 class Network 
 {       
-    public:
+    private:
         hex h;
-        //Ipv4 ipv4;
-        std::string transportProt;
+        int networkProto;
+        int transportProto;
         std::string source;
         std::string dest;
-
+    
+    public:
         Network() = default;
         Network(hex &hex);
         virtual ~Network() = default;
+
+        std::string getSource();
+        std::string getDest();
+        int getTransportProto();
+        int getNetworkProto();
+        hex &getHex();
         
         virtual int getTTL();
+    
+    protected:
+        void setTransportProto(int transportProto);
+        void setNetworkProto(int networkProto);//////////////////////////
+        void setSource(std::string source);
+        void setDest(std::string dest);
 };
 
 

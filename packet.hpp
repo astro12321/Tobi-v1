@@ -9,24 +9,32 @@
 #include "network.hpp"
 #include "layer.hpp"
 #include "hex.hpp"
-
-#define BUFFERSIZE 4096
-
-//using namespace std;
+#include "defaults.hpp"
 
 
-class Packet 
-{       
-    public:
+class Packet
+{
+    private:
         int index;
+        std::string status;
+        std::string transportProto;
+        std::string networkProto;
+        hex h;
         Layer layer;
-
+        
+        std::string setStatus(int status);
+        std::string setTransportProto(int proto);
+        std::string setNetworkProto(int proto);
+    
+    public:
         Packet(int ind, hex &hex);
 
         hex &getHex();
-
-    private:
-        hex h;
+        Layer &getLayer();
+        std::string getStatus();
+        int getIndex();
+        std::string getTransportProto();
+        std::string getNetworkProto();
 };
 
 

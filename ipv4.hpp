@@ -7,10 +7,7 @@
 #include <iomanip>
 
 #include "hex.hpp"
-
 #include "network.hpp"
-
-//using namespace std;
 
 
 //namespace ipv4 //Namespace because this Hex class will have fields that are unique to ipv4
@@ -21,7 +18,7 @@ class Frame: public hex
         hex source;
         hex dest;
         byte ttl;
-        byte transportProt;
+        byte transportProto;
 
         Frame() = default;
         Frame(hex &he);
@@ -43,7 +40,6 @@ class Ipv4 : public Network
     
     private:
         std::string getIp(hex &hex);
-        std::string getTransportProt(int prot);
 };
 
 

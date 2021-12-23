@@ -5,25 +5,19 @@
 #include <iomanip>
 
 #include "network.hpp"
-//#include "ipv4.hpp"
 #include "hex.hpp"
 
-//using namespace std;
 
-
-Network::Network(hex &hex)
-{
-    this->h = hex;
-
-    //Attributing the network header to the good protocol
-    int ipVersion = hex[0].first().to_dec();
-
-    /*if (ipVersion == 4) {
-        this->ipv4 = Ipv4(hex);
-        this->transportProt = ipv4.transportProt;
-    }*/
-
-}
+Network::Network(hex &hex) { this->h = hex; }
 
 
 int Network::getTTL() { return -1; }
+std::string Network::getSource() { return this->source; };
+std::string Network::getDest() { return this->dest; };
+int Network::getTransportProto() { return this->transportProto; }
+int Network::getNetworkProto() { return this->networkProto; }
+hex& Network::getHex() { return this->h; }
+void Network::setTransportProto(int transportProto) { this->transportProto = transportProto; }
+void Network::setNetworkProto(int networkProto) { this->networkProto = networkProto; }
+void Network::setSource(std::string source) { this->source = source; }
+void Network::setDest(std::string dest) { this->dest = dest; }
