@@ -6,18 +6,20 @@
 
 #include "layer.hpp"
 #include "network.hpp"
+#include "ipv4.hpp"
 #include "hex.hpp"
 
 //using namespace std;
 
+#include <memory>///////////////
 
 Layer::Layer(hex &pktHex)
 {
     //Giving each layers their bytes of the packet
 
     //Network layer
-    hex networkHex = findNetworkHex(pktHex);
-    this->network = Network(networkHex);
+    this->network = findNetworkProt(pktHex);
+
 
     /*//Transport layer
     std::string transportProt = network.transportProt;
@@ -27,13 +29,18 @@ Layer::Layer(hex &pktHex)
 }
 
 
-hex Layer::findNetworkHex(hex &pktHex)
+//Gotta use pointers because polymorphism requires it (smart pointers)
+std::shared_ptr<Network> Layer::findNetworkProt(hex &pktHex)
 {
     int ipVersion = pktHex[0].first().to_dec();
     
-    if (ipVersion == 4) return pktHex.substr(0, 20);
-
-    throw std::invalid_argument("Not an ipv4 packet");
+    if (ipVersion == 4)
+    {
+        hex hex = pktHex.substr(0, 20);
+        return std::shared_ptr<Ipv4>(new Ipv4(hex));
+    }
+    
+    throw std::invalid_argument("Not an ipv4 packet"); //This has to change
 }
 
 

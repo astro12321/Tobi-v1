@@ -60,13 +60,13 @@ int main(int argc, char *argv[])
 
         std::cout << "\n------------------------------------------------\n";
         std::cout << pkt.index << ". Packet read: " << pkt.getHex().to_string() << "\n";
-        /*std::cout << "- Network part: " << pkt.layer.network.h.to_string() << "\n";
-        std::cout << "- Source IP: " << pkt.layer.network.ipv4.source << "\n";
-        std::cout << "- Dest IP: " << pkt.layer.network.ipv4.dest << "\n";
-        //std::cout << "- TTL: " << pkt.layer.network.ipv4.ttl << "\n";
-        //std::cout << "- Protocol: " << pkt.layer.network.transportProt << "\n";
-        std::cout << "- Packet length: " << pkt.hex.length() << "\n";
-        //std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";*/
+        std::cout << "- Network part: " << pkt.layer.network->h.to_string() << "\n";
+        std::cout << "- Source IP: " << pkt.layer.network->source << "\n";
+        std::cout << "- Dest IP: " << pkt.layer.network->dest << "\n";
+        std::cout << "- TTL: " << pkt.layer.network->getTTL() << "\n";
+        std::cout << "- Protocol: " << pkt.layer.network->transportProt << "\n";
+        //std::cout << "- Packet length: " << pkt.hex.length() << "\n";
+        //std::cout << "- Transport: " << pkt.layer.transport.hex << "\n";
         std::cout << "------------------------------------------------\n\n";
 
         if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");

@@ -8,6 +8,8 @@
 
 #include "hex.hpp"
 
+#include "network.hpp"
+
 //using namespace std;
 
 
@@ -22,26 +24,25 @@ class Frame: public hex
         byte transportProt;
 
         Frame() = default;
-        Frame(hex hex);
+        Frame(hex &he);
 };
 
 //}
 
 
-class Ipv4 
+class Ipv4 : public Network
 {       
     public:
         /*ipv4::*/Frame frame;
-        std::string source;
-        std::string dest;
         int ttl;
-        std::string transportProt;
 
         Ipv4() = default;
-        Ipv4(hex hex);
+        Ipv4(hex &hex);
+        
+        int getTTL();
     
     private:
-        std::string getIp(hex hex);
+        std::string getIp(hex &hex);
         std::string getTransportProt(int prot);
 };
 

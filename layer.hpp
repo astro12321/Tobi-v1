@@ -6,25 +6,28 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
+#include <memory>
 
 #include "network.hpp"
-#include "transport.hpp"
+#include "ipv4.hpp"
+//#include "transport.hpp"//////////////////////////
 #include "hex.hpp"
 
 //using namespace std;
 
 
-class Layer 
-{       
+class Layer
+{
     public:
-        Network network;
-        Transport transport;
+        std::shared_ptr<Network> network;
+        //Transport transport;
 
         Layer() = default;
         Layer(hex &pktHex);
 
     private:
-        hex findNetworkHex(hex &hex);
+        std::shared_ptr<Network> findNetworkProt(hex &hex);
+        Network findNetworkProtWORKING(hex &hex);
         hex findTransportHex(hex &hex, std::string protocol);
 };
 

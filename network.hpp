@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "ipv4.hpp"
+//#include "ipv4.hpp"
 #include "hex.hpp"
 
 //using namespace std;
@@ -16,11 +16,16 @@ class Network
 {       
     public:
         hex h;
-        Ipv4 ipv4;
+        //Ipv4 ipv4;
         std::string transportProt;
+        std::string source;
+        std::string dest;
 
         Network() = default;
         Network(hex &hex);
+        virtual ~Network() = default;
+        
+        virtual int getTTL();
 };
 
 
