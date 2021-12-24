@@ -4,4 +4,5 @@
 
 
 int BUFFERSIZE = 4096;
-std::string undef = "undef";
+std::string UNDEF = "undef";
+std::string INTIP = "10.0.0.2";

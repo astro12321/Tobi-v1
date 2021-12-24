@@ -15,10 +15,15 @@ Packet::Packet(int ind, hex &hex)
     this->index = ind;
     this->h = hex;
     this->layer = Layer(hex);
+    this->valid = this->layer.isValid(); //If the layers are not valid than the packet isn't
 
-    this->status = setStatus(this->layer.getStatus());
-    this->transportProto = setTransportProto(this->layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
-    this->networkProto = setNetworkProto(this->layer.getNetwork().getNetworkProto());
+    if (this->isValid())
+    {
+        this->status = setStatus(this->getLayer().getNetwork().getStatus());
+
+        this->transportProto = setTransportProto(this->layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
+        this->networkProto = setNetworkProto(this->layer.getNetwork().getNetworkProto());
+    }
 }
 
 
@@ -33,8 +38,7 @@ std::string Packet::getNetworkProto() { return this->networkProto; }
 std::string Packet::setStatus(int status)
 {
     if (status == 1) return "SENT";
-    else if ((status == 0)) return "RECV";
-    return undef;
+    return "RECV";
 }
 
 
@@ -43,7 +47,7 @@ std::string Packet::setNetworkProto(int proto)
     switch(proto)
     {
         case 4: return "IPv4";
-        default: return undef;
+        default: return UNDEF; //Should never return (the isValid bool would be false in this case)
     }
 }
 
@@ -55,6 +59,9 @@ std::string Packet::setTransportProto(int proto)
         case 1: return "ICMP";
         case 6: return "TCP";
         case 17: return "UDP";
-        default: return undef;
+        default: return UNDEF;
     }
 }
+
+
+bool Packet::isValid() { return this->valid; }

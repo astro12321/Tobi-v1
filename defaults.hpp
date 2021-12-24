@@ -5,7 +5,7 @@
 
 
 extern int BUFFERSIZE;
-extern std::string undef;
-
+extern std::string UNDEF;
+extern std::string INTIP;
 
 #endif

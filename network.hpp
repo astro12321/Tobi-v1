@@ -10,11 +10,12 @@
 
 
 class Network 
-{       
+{
     private:
         hex h;
         int networkProto;
         int transportProto;
+        int status;
         std::string source;
         std::string dest;
     
@@ -25,6 +26,7 @@ class Network
 
         std::string getSource();
         std::string getDest();
+        int getStatus();
         int getTransportProto();
         int getNetworkProto();
         hex &getHex();
@@ -36,6 +38,7 @@ class Network
         void setNetworkProto(int networkProto);//////////////////////////
         void setSource(std::string source);
         void setDest(std::string dest);
+        void setStatus(int status);
 };
 
 

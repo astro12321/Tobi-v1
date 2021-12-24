@@ -13,14 +13,11 @@
 
 Layer::Layer(hex &pktHex)
 {
-    //Giving each layers their bytes of the packet
-
-    //Network layer
     this->network = findNetworkProt(pktHex);
 
     if (this->network != nullptr)
     {
-        this->status = setStatus();
+        this->valid = true;
 
         /*//Transport layer
         std::string transportProt = network.transportProt;
@@ -28,22 +25,16 @@ Layer::Layer(hex &pktHex)
         std::string transportHex = findTransportHex(transportPacket, transportProt);
         this->transport = Transport(transportHex, transportProt);*/
     }
-    else { this->status = -1; } //If the packet is invalid (a protocol that we don't parse)
+    else { this->valid = false; } //If the packet is invalid (a protocol that we don't parse)
 }
 
 
 //Pretty evil because it's returning an object on the heap (which should be manually deleted), but acceptable here as this object is a smart pointer which will delete itself
 Network &Layer::getNetwork() { return *(this->network); }
 
+bool Layer::isValid() { return this->valid; }
 
-int Layer::setStatus()
-{
-    if (this->network->getSource() == "10.0.0.2") return 1;
-    return 0;
-}
-
-
-int Layer::getStatus() { return this->status; }
+//int Layer::getStatus() { return this->status; }
 
 
 //Gotta use pointers because polymorphism requires it (smart pointers)

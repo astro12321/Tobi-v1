@@ -17,20 +17,19 @@
 class Layer
 {
     private:
-        int status;
+        bool valid;
 
         std::unique_ptr<Network> network;
 
         std::unique_ptr<Network> findNetworkProt(hex &hex);
         hex findTransportHex(hex &hex, std::string protocol);
-        int setStatus();
     
     public:
         Layer() = default;
         Layer(hex &pktHex);
 
-        int getStatus();
         Network &getNetwork();
+        bool isValid();
 };
 
 

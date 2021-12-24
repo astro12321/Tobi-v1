@@ -39,7 +39,8 @@ class Ipv4 : public Network
         int getTTL();
     
     private:
-        std::string getIp(hex &hex);
+        std::string hexToIP(hex &hex);
+        int findPktStatus();
 };
 
 

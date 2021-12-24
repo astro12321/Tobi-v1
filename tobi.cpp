@@ -53,10 +53,10 @@ int main(int argc, char *argv[])
 
 
         std::cout << "\n------------------------------------------------\n";
-        
+
         std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
 
-        if (pkt.getStatus() != undef) {
+        if (pkt.isValid()) {
             std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
             std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
             std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
@@ -68,8 +68,12 @@ int main(int argc, char *argv[])
 
         std::cout << "------------------------------------------------\n\n";
 
+        if (pkt.getLayer().getNetwork().getDest() != "8.8.8.8")
+        {
+            if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");
+        }
 
-        if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");
+        
     }
 
 

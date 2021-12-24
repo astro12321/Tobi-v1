@@ -7,7 +7,7 @@
 #include "ipv4.hpp"
 #include "hex.hpp"
 #include "network.hpp"
-
+#include "defaults.hpp"
 
 //namespace ipv4
 //{
@@ -24,30 +24,24 @@ Frame::Frame(hex &he): hex(he)
 
 Ipv4::Ipv4(hex &hex): Network(hex)
 {
-    this->setNetworkProto(4);
     this->frame = Frame(hex); //ipv4::Frame(hex);
     this->ttl = this->frame.ttl.to_dec();
     
     //Setting parent variable
-    this->setSource(getIp(this->frame.source));
-    this->setDest(getIp(this->frame.dest));
+    this->setNetworkProto(4);
+    this->setSource(hexToIP(this->frame.source));
+    this->setDest(hexToIP(this->frame.dest));
+    this->setStatus(findPktStatus());
     this->setTransportProto(this->frame.transportProto.to_dec());
 }
 
 
-std::string Ipv4::getIp(hex &hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
-
-/*
-std::string Ipv4::getTransportProt(int prot)
-{
-    switch(prot)
-    {
-        case 1: return "ICMP";
-        case 6: return "TCP";
-        case 17: return "UDP";
-        default: return "unknown";
-    }
-}*/
-
+std::string Ipv4::hexToIP(hex &hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
 
 int Ipv4::getTTL() { return this->ttl; }
+
+int Ipv4::findPktStatus()
+{
+    if (this->getSource() == INTIP) return 1;
+    return 0;
+}
