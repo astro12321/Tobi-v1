@@ -6,17 +6,24 @@
 #include <sstream>
 #include <iomanip>
 
-//using namespace std;
+#include "hex.hpp"
 
 
 class Transport 
 {       
-    public:
-        std::string protocol;
-        std::string hex;
+    private:
+        hex h;
+        int transportProto;
 
+    public:
         Transport() = default;
-        Transport(std::string hex, std::string protocol);
+        Transport(hex &hex);
+        virtual ~Transport() = default;
+
+        int getTransportProto();
+
+        virtual int getType();
+        virtual int getCode();
 };
 
 

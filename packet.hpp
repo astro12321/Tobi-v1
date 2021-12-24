@@ -16,7 +16,6 @@ class Packet
 {
     private:
         int index;
-        bool valid;
         std::string status;
         std::string transportProto;
         std::string networkProto;
@@ -36,7 +35,6 @@ class Packet
         int getIndex();
         std::string getTransportProto();
         std::string getNetworkProto();
-        bool isValid();
 };
 
 

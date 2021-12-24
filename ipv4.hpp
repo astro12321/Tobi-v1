@@ -10,37 +10,36 @@
 #include "network.hpp"
 
 
-//namespace ipv4 //Namespace because this Hex class will have fields that are unique to ipv4
-//{
-class Frame: public hex
+namespace ipv4 //Namespace because this Hex class will have fields that are unique to ipv4
 {
-    public:
-        hex source;
-        hex dest;
-        byte ttl;
-        byte transportProto;
+    class Frame: public hex
+    {
+        public:
+            hex source;
+            hex dest;
+            byte ttl;
+            byte transportProto;
 
-        Frame() = default;
-        Frame(hex &he);
-};
-
-//}
+            Frame() = default;
+            Frame(hex &he);
+    };
+}
 
 
 class Ipv4 : public Network
-{       
+{
+    private:
+        std::string hexToIP(hex &hex);
+        int findPktStatus();
+    
     public:
-        /*ipv4::*/Frame frame;
+        ipv4::Frame frame;
         int ttl;
 
         Ipv4() = default;
         Ipv4(hex &hex);
         
         int getTTL();
-    
-    private:
-        std::string hexToIP(hex &hex);
-        int findPktStatus();
 };
 
 

@@ -15,14 +15,13 @@ Packet::Packet(int ind, hex &hex)
     this->index = ind;
     this->h = hex;
     this->layer = Layer(hex);
-    this->valid = this->layer.isValid(); //If the layers are not valid than the packet isn't
 
-    if (this->isValid())
+    if (getLayer().networkIsValid())
     {
         this->status = setStatus(this->getLayer().getNetwork().getStatus());
 
-        this->transportProto = setTransportProto(this->layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
         this->networkProto = setNetworkProto(this->layer.getNetwork().getNetworkProto());
+        this->transportProto = setTransportProto(this->layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
     }
 }
 
@@ -62,6 +61,3 @@ std::string Packet::setTransportProto(int proto)
         default: return UNDEF;
     }
 }
-
-
-bool Packet::isValid() { return this->valid; }

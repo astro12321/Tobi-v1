@@ -34,7 +34,7 @@ class hex
     public:
         hex();
         hex(const hex &hex);
-        hex(const char *hex);
+        //hex(const char *hex);
         hex(std::string hex);
         hex(unsigned char *bytes, int len);
 
@@ -42,7 +42,7 @@ class hex
         int numberOfBytes();
         int to_dec();
         std::string to_string();
-        unsigned char *bytes();
+        unsigned char &getBytes();
         hex substr(int start, int len);
 
         friend std::ostream &operator<<(std::ostream& os, const hex& hex);

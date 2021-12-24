@@ -9,22 +9,22 @@
 #include "network.hpp"
 #include "defaults.hpp"
 
-//namespace ipv4
-//{
-Frame::Frame(hex &he): hex(he)
-{
-    this->source = he.substr(12, 4);
-    this->dest = he.substr(16, 4);
-    this->ttl = he[8];
-    this->transportProto = he[9];
-}
 
-//}
+namespace ipv4
+{
+    Frame::Frame(hex &he): hex(he)
+    {
+        this->source = he.substr(12, 4);
+        this->dest = he.substr(16, 4);
+        this->ttl = he[8];
+        this->transportProto = he[9];
+    }
+}
 
 
 Ipv4::Ipv4(hex &hex): Network(hex)
 {
-    this->frame = Frame(hex); //ipv4::Frame(hex);
+    this->frame = ipv4::Frame(hex); //ipv4::Frame(hex);
     this->ttl = this->frame.ttl.to_dec();
     
     //Setting parent variable
@@ -40,8 +40,7 @@ std::string Ipv4::hexToIP(hex &hex) { return std::to_string(hex[0].to_dec()) + "
 
 int Ipv4::getTTL() { return this->ttl; }
 
-int Ipv4::findPktStatus()
-{
+int Ipv4::findPktStatus() {
     if (this->getSource() == INTIP) return 1;
     return 0;
 }

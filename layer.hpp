@@ -10,26 +10,31 @@
 
 #include "network.hpp"
 #include "ipv4.hpp"
-//#include "transport.hpp"//////////////////////////
+#include "transport.hpp"
 #include "hex.hpp"
 
 
 class Layer
 {
     private:
-        bool valid;
+        bool networkValid;
+        bool transportValid;
 
         std::unique_ptr<Network> network;
+        std::unique_ptr<Transport> transport;
 
-        std::unique_ptr<Network> findNetworkProt(hex &hex);
-        hex findTransportHex(hex &hex, std::string protocol);
+        std::unique_ptr<Network> findNetworkProto(hex &hex);
+        std::unique_ptr<Transport> findTransportProto(hex &pktHex, int networkLength, int proto);
     
     public:
         Layer() = default;
         Layer(hex &pktHex);
 
         Network &getNetwork();
-        bool isValid();
+        Transport &getTransport();
+
+        bool networkIsValid();
+        bool transportIsValid();
 };
 
 

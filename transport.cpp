@@ -5,12 +5,16 @@
 #include <iomanip>
 
 #include "transport.hpp"
+#include "hex.hpp"
 
-//using namespace std;
 
-
-Transport::Transport(std::string hex, std::string protocol)
+Transport::Transport(hex &hex)
 {
-    this->protocol = protocol;
-    this->hex = hex;
+    this->h = hex;
 }
+
+
+int Transport::getTransportProto() { return this->transportProto; }
+
+int Transport::getType() { return -1; }
+int Transport::getCode() { return -1; }

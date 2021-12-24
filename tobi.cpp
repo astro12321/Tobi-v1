@@ -56,24 +56,25 @@ int main(int argc, char *argv[])
 
         std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
 
-        if (pkt.isValid()) {
-            std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
+        if (pkt.getLayer().networkIsValid()) {
+            /*std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
             std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
             std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
             std::cout << "- TTL: " << pkt.getLayer().getNetwork().getTTL() << "\n";
             std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
             std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
-            std::cout << "- Status: " << pkt.getStatus() << "\n";
+            std::cout << "- Status: " << pkt.getStatus() << "\n";*/
+
+            if (pkt.getLayer().transportIsValid()) {
+                std::cout << "- Transport code: " << pkt.getLayer().getTransport().getCode() << "\n";
+                std::cout << "- Transport type: " << pkt.getLayer().getTransport().getType() << "\n";
+            }
         }
 
         std::cout << "------------------------------------------------\n\n";
 
-        if (pkt.getLayer().getNetwork().getDest() != "8.8.8.8")
-        {
-            if(write(fd, pkt.getHex().bytes(), bytesRead) < 0) perror("Error writing to tun interface");
-        }
 
-        
+        if(write(fd, &pkt.getHex().getBytes(), bytesRead) < 0) perror("Error writing to tun interface");
     }
 
 

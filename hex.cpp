@@ -31,8 +31,8 @@ hex::hex(std::string hex)
 
 hex::hex(unsigned char *bytes, int len)
 {
-    this->b = bytes;
     this->len = len;
+    memcpy(&b, &bytes, sizeof(bytes));
 
     std::stringstream ss;
     ss << std::hex;
@@ -45,17 +45,17 @@ hex::hex(unsigned char *bytes, int len)
 
 
 //Functions
-int hex::length() { return len; } //Number of bytes read (aka bytesRead)
+int hex::length() { return this->len; } //Number of bytes read (aka bytesRead)
 
-int hex::numberOfBytes() { return h.length() / 2; }
+int hex::numberOfBytes() { return this->h.length() / 2; }
 
-int hex::to_dec() { return std::stoul(h, nullptr, 16); }
+int hex::to_dec() { return std::stoul(this->h, nullptr, 16); }
 
-std::string hex::to_string() { return h; }
+std::string hex::to_string() { return this->h; }
 
-unsigned char *hex::bytes() { return b; }
+unsigned char &hex::getBytes() { return *this->b; }
 
-hex hex::substr(int start, int len) { return hex(h.substr(start * 2, len * 2)); }
+hex hex::substr(int start, int len) { return hex(this->h.substr(start * 2, len * 2)); }
 
 
 //Operator overload
