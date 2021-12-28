@@ -10,18 +10,24 @@
 #include "transport.hpp"
 
 
-namespace icmp //Namespace because this Hex class will have fields that are unique to ipv4
+namespace icmp
 {
     class Frame: public hex
     {
-        public:
+        private:
             byte type;
             byte code;
             hex checksum;
             hex data;
 
+        public: //Could add checksum status support
             Frame() = default;
-            Frame(hex &he);
+            Frame(hex &aHex);
+
+            byte &getType();
+            byte &getCode();
+            hex &getChecksum();
+            hex &getData();
     };
 }
 
@@ -29,17 +35,20 @@ namespace icmp //Namespace because this Hex class will have fields that are uniq
 class ICMP : public Transport
 {
     private:
+        icmp::Frame frame;
         int type;
         int code;
+        std::string checksum;
+        std::string data;
 
     public:
-        icmp::Frame frame;
-
         ICMP() = default;
         ICMP(hex &hex);
 
         int getType();
         int getCode();
+        std::string getChecksum();
+        std::string getData();
 };
 
 

@@ -12,21 +12,33 @@
 
 namespace icmp
 {
-    Frame::Frame(hex &he): hex(he)
+    Frame::Frame(hex &aHex): hex(aHex)
     {
-        this->type = he[0];
-        this->code = he[1];
-        this->checksum = he.substr(2, 2);
-        this->data = he.substr(4, he.numberOfBytes() - 4);
+        this->type = aHex[0];
+        this->code = aHex[1];
+        this->checksum = aHex.substr(2, 2);
+        this->data = aHex.substr(16, aHex.numberOfBytes() - 16);
     }
+
+    byte &Frame::getType() { return this->type; }
+    byte &Frame::getCode() { return this->code; }
+    hex &Frame::getChecksum() { return this->checksum; }
+    hex &Frame::getData() { return this->data; }
 }
 
 
-ICMP::ICMP(hex &hex): Transport(hex)
+ICMP::ICMP(hex &hex): Transport(hex, 1) //1 for ICMP
 {
     this->frame = icmp::Frame(hex);
+
+    this->type = frame.getType().to_dec();
+    this->code = frame.getCode().to_dec();
+    this->checksum = frame.getChecksum().to_fstring();
+    this->data = frame.getData().to_fstring();
 }
 
 
-int ICMP::getType() { return this->frame.type.to_dec(); }
-int ICMP::getCode() { return this->frame.code.to_dec(); }
+int ICMP::getType() { return this->type; }
+int ICMP::getCode() { return this->code; }
+std::string ICMP::getChecksum() { return this->checksum; }
+std::string ICMP::getData() { return this->data; }

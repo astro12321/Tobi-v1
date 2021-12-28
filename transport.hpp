@@ -17,13 +17,24 @@ class Transport
 
     public:
         Transport() = default;
-        Transport(hex &hex);
+        Transport(hex &hex, int proto);
         virtual ~Transport() = default;
 
+        hex &getHex();
         int getTransportProto();
 
+        //ICMP
         virtual int getType();
         virtual int getCode();
+        virtual std::string getChecksum();
+        virtual std::string getData();
+
+        //TCP
+
+
+        //UDP
+
+
 };
 
 

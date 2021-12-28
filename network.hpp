@@ -24,18 +24,19 @@ class Network
         Network(hex &hex);
         virtual ~Network() = default;
 
+        hex &getHex();
+
         std::string getSource();
         std::string getDest();
         int getStatus();
         int getTransportProto();
         int getNetworkProto();
-        hex &getHex();
         
         virtual int getTTL();
     
     protected:
         void setTransportProto(int transportProto);
-        void setNetworkProto(int networkProto);//////////////////////////
+        void setNetworkProto(int networkProto);
         void setSource(std::string source);
         void setDest(std::string dest);
         void setStatus(int status);

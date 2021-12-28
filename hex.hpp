@@ -42,6 +42,7 @@ class hex
         int numberOfBytes();
         int to_dec();
         std::string to_string();
+        std::string to_fstring();
         unsigned char &getBytes();
         hex substr(int start, int len);
 

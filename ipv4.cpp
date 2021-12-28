@@ -12,31 +12,41 @@
 
 namespace ipv4
 {
-    Frame::Frame(hex &he): hex(he)
+    Frame::Frame(hex &aHex): hex(aHex)
     {
-        this->source = he.substr(12, 4);
-        this->dest = he.substr(16, 4);
-        this->ttl = he[8];
-        this->transportProto = he[9];
+        this->source = aHex.substr(12, 4);
+        this->dest = aHex.substr(16, 4);
+        this->ttl = aHex[8];
+        this->transportProto = aHex[9];
     }
+
+    hex &Frame::getSource() { return this->source; }   
+    hex &Frame::getDest() { return this->dest; }
+    byte &Frame::getTtl() { return this->ttl; }
+    byte &Frame::getTransportProto() { return this->transportProto; }
 }
 
 
 Ipv4::Ipv4(hex &hex): Network(hex)
 {
     this->frame = ipv4::Frame(hex); //ipv4::Frame(hex);
-    this->ttl = this->frame.ttl.to_dec();
+
+    this->source = hexToIP(frame.getSource());
+    this->dest = hexToIP(frame.getDest());
+    this->ttl = frame.getTtl().to_dec();
+    this->transportProto = frame.getTransportProto().to_dec();
     
-    //Setting parent variable
+    //Setting parents variables
     this->setNetworkProto(4);
-    this->setSource(hexToIP(this->frame.source));
-    this->setDest(hexToIP(this->frame.dest));
+    this->setSource(source);
+    this->setDest(dest);
     this->setStatus(findPktStatus());
-    this->setTransportProto(this->frame.transportProto.to_dec());
+    this->setTransportProto(transportProto);
 }
 
 
 std::string Ipv4::hexToIP(hex &hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
+
 
 int Ipv4::getTTL() { return this->ttl; }
 

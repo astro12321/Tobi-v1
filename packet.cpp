@@ -20,8 +20,8 @@ Packet::Packet(int ind, hex &hex)
     {
         this->status = setStatus(this->getLayer().getNetwork().getStatus());
 
-        this->networkProto = setNetworkProto(this->layer.getNetwork().getNetworkProto());
-        this->transportProto = setTransportProto(this->layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
+        this->networkProto = setNetworkProto(layer.getNetwork().getNetworkProto());
+        this->transportProto = setTransportProto(layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
     }
 }
 

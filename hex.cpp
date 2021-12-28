@@ -52,6 +52,7 @@ int hex::numberOfBytes() { return this->h.length() / 2; }
 int hex::to_dec() { return std::stoul(this->h, nullptr, 16); }
 
 std::string hex::to_string() { return this->h; }
+std::string hex::to_fstring() { return "0x" + this->h; }
 
 unsigned char &hex::getBytes() { return *this->b; }
 

@@ -14,14 +14,20 @@ namespace ipv4 //Namespace because this Hex class will have fields that are uniq
 {
     class Frame: public hex
     {
-        public:
+        private:
             hex source;
             hex dest;
             byte ttl;
             byte transportProto;
 
+        public:
             Frame() = default;
-            Frame(hex &he);
+            Frame(hex &aHex);
+
+            hex &getSource();
+            hex &getDest();
+            byte &getTtl();
+            byte &getTransportProto();
     };
 }
 
@@ -29,16 +35,19 @@ namespace ipv4 //Namespace because this Hex class will have fields that are uniq
 class Ipv4 : public Network
 {
     private:
+        ipv4::Frame frame;
+        std::string source;
+        std::string dest;
+        int ttl;
+        int transportProto;
+
         std::string hexToIP(hex &hex);
         int findPktStatus();
     
     public:
-        ipv4::Frame frame;
-        int ttl;
-
         Ipv4() = default;
         Ipv4(hex &hex);
-        
+
         int getTTL();
 };
 
