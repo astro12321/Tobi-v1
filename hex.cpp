@@ -88,6 +88,7 @@ byte::byte(std::string byte)
 int byte::to_dec() { return std::stoul(b, nullptr, 16); }
 
 std::string byte::to_string() { return b; }
+std::string byte::to_fstring() { return "0x" + this->b; }
 
 byte byte::first() { return byte(std::string("0") + b[0]); }
 byte byte::last() { return byte(std::string("0") + b[1]); }

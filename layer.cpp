@@ -7,10 +7,10 @@
 
 #include "layer.hpp"
 #include "network.hpp"
-//#include "transport.hpp"
 #include "ipv4.hpp"
 #include "hex.hpp"
 #include "icmp.hpp"
+#include "tcp.hpp"
 
 
 Layer::Layer(hex &pktHex)
@@ -33,14 +33,11 @@ Layer::Layer(hex &pktHex)
 }
 
 
-//Pretty evil because it's returning an object on the heap (which should be manually deleted), but acceptable here as this object is a smart pointer which will delete itself
 Network &Layer::getNetwork() { return *(this->network); }
 Transport &Layer::getTransport() { return *(this->transport); }
 
 bool Layer::networkIsValid() { return this->networkValid; }
 bool Layer::transportIsValid() { return this->transportValid; }
-
-//int Layer::getStatus() { return this->status; }
 
 
 //Gotta use pointers because polymorphism requires it (smart pointers)
@@ -69,13 +66,15 @@ std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLen
             return std::make_unique<ICMP>(transportHex);
         }
 
-        /*case 6: //TCP
-            int tcpHeaderLen = pktHex[12].first().to_dec();
-            pktHex.substr(0, tcpHeaderLen * 4);
+        case 6: //TCP
+        {
+            int tcpHeaderLen = pktHex[networkLength + 12].first().to_dec();
+            hex transportHex = pktHex.substr(networkLength, tcpHeaderLen * 4);
 
-            return "TCP";
+            return std::make_unique<TCP>(transportHex);
+        }
 
-        case 17: //UDP
+        /*case 17: //UDP
             pktHex.substr(0, 8);
 
             return "UDP";*/
@@ -84,23 +83,4 @@ std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLen
             return std::unique_ptr<Transport>(nullptr);
     }
 
-
-
-    /*
-    if (protocol == "TCP")
-    {
-        int tcpHeaderLen = pktHex[12].first().to_dec();
-
-        return pktHex.substr(0, tcpHeaderLen * 4);
-    }
-
-    else if (protocol == "UDP")
-    {
-        return pktHex.substr(0, 8);
-    }
-
-    else if (protocol == "ICMP")
-    {
-        return pktHex.substr(0, pktHex.numberOfBytes());
-    }*/
 }

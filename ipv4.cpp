@@ -27,7 +27,7 @@ namespace ipv4
 }
 
 
-Ipv4::Ipv4(hex &hex): Network(hex)
+Ipv4::Ipv4(hex &hex): Network(hex, 4)
 {
     this->frame = ipv4::Frame(hex); //ipv4::Frame(hex);
 
@@ -37,7 +37,6 @@ Ipv4::Ipv4(hex &hex): Network(hex)
     this->transportProto = frame.getTransportProto().to_dec();
     
     //Setting parents variables
-    this->setNetworkProto(4);
     this->setSource(source);
     this->setDest(dest);
     this->setStatus(findPktStatus());

@@ -17,7 +17,7 @@ namespace icmp
         private:
             byte type;
             byte code;
-            hex checksum;
+            hex csum;
             hex data;
 
         public: //Could add checksum status support
@@ -26,7 +26,7 @@ namespace icmp
 
             byte &getType();
             byte &getCode();
-            hex &getChecksum();
+            hex &getCsum();
             hex &getData();
     };
 }
@@ -38,7 +38,7 @@ class ICMP : public Transport
         icmp::Frame frame;
         int type;
         int code;
-        std::string checksum;
+        std::string csum;
         std::string data;
 
     public:
@@ -47,7 +47,6 @@ class ICMP : public Transport
 
         int getType();
         int getCode();
-        std::string getChecksum();
         std::string getData();
 };
 

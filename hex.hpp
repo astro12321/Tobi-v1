@@ -19,6 +19,7 @@ class byte
         byte(std::string byte);
         int to_dec();
         std::string to_string();
+        std::string to_fstring();
         byte first();
         byte last();
 };

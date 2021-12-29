@@ -6,12 +6,22 @@
 
 #include "network.hpp"
 #include "hex.hpp"
+#include "defaults.hpp"
 
 
-Network::Network(hex &hex) {  this->h = hex; }
+Network::Network(hex &hex, int proto) 
+{  
+    this->h = hex; 
+    this->networkProto = proto;
+
+    this->transportProto = -1;
+    this->status = -1;
+    this->source = UNDEF;
+    this->dest = UNDEF;
+}
 
 
-//virtual
+//virtual IPv4
 int Network::getTTL() { return -1; }
 
 hex& Network::getHex() { return this->h; }
@@ -24,7 +34,6 @@ int Network::getNetworkProto() { return this->networkProto; }
 
 
 void Network::setTransportProto(int transportProto) { this->transportProto = transportProto; }
-void Network::setNetworkProto(int networkProto) { this->networkProto = networkProto; }
 void Network::setSource(std::string source) { this->source = source; }
 void Network::setDest(std::string dest) { this->dest = dest; }
 void Network::setStatus(int status) { this->status = status; }

@@ -21,7 +21,7 @@ class Network
     
     public:
         Network() = default;
-        Network(hex &hex);
+        Network(hex &hex, int proto);
         virtual ~Network() = default;
 
         hex &getHex();
@@ -36,7 +36,6 @@ class Network
     
     protected:
         void setTransportProto(int transportProto);
-        void setNetworkProto(int networkProto);
         void setSource(std::string source);
         void setDest(std::string dest);
         void setStatus(int status);
