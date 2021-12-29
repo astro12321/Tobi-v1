@@ -11,6 +11,7 @@
 #include "hex.hpp"
 #include "icmp.hpp"
 #include "tcp.hpp"
+#include "udp.hpp"
 
 
 Layer::Layer(hex &pktHex)
@@ -74,10 +75,12 @@ std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLen
             return std::make_unique<TCP>(transportHex);
         }
 
-        /*case 17: //UDP
-            pktHex.substr(0, 8);
+        case 17: //UDP
+        {
+            hex transportHex = pktHex.substr(networkLength, 8);
 
-            return "UDP";*/
+            return std::make_unique<UDP>(transportHex);
+        }
 
         default:
             return std::unique_ptr<Transport>(nullptr);

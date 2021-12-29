@@ -54,10 +54,10 @@ int main(int argc, char *argv[])
         hex packetHex = hex(buffer, bytesRead);
         Packet pkt(ind, packetHex);
 
-        std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
-
-        if (pkt.getTransportProto() == "TCP" || pkt.getTransportProto() == "ICMP")
+        if (pkt.getTransportProto() == "UDP" || pkt.getTransportProto() == "ICMP")
         {
+            std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
+
             if (pkt.getLayer().networkIsValid()) {
                 std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
                 std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
@@ -76,14 +76,19 @@ int main(int argc, char *argv[])
                     std::cout << "- Transport data: " << pkt.getLayer().getTransport().getData() << "\n";*/
 
                     //TCP
-                    std::cout << "- Transport source: " << pkt.getLayer().getTransport().getSource() << "\n";
+                    /*std::cout << "- Transport source: " << pkt.getLayer().getTransport().getSource() << "\n";
                     std::cout << "- Transport dest: " << pkt.getLayer().getTransport().getDest() << "\n";
                     std::cout << "- Transport csum: " << pkt.getLayer().getTransport().getCsum() << "\n";
                     std::cout << "- Transport seq: " << pkt.getLayer().getTransport().getSeqNumber() << "\n";
                     std::cout << "- Transport ack: " << pkt.getLayer().getTransport().getAckNumber() << "\n";
                     std::cout << "- Transport hdr length: " << pkt.getLayer().getTransport().getHdrLen() << "\n";
                     std::cout << "- Transport flags: " << pkt.getLayer().getTransport().getFlags() << "\n";
-                    std::cout << "- Transport windows: " << pkt.getLayer().getTransport().getWindow() << "\n";
+                    std::cout << "- Transport windows: " << pkt.getLayer().getTransport().getWindow() << "\n";*/
+
+                    //UDP
+                    std::cout << "- Transport source: " << pkt.getLayer().getTransport().getSource() << "\n";
+                    std::cout << "- Transport dest: " << pkt.getLayer().getTransport().getDest() << "\n";
+                    std::cout << "- Transport csum: " << pkt.getLayer().getTransport().getCsum() << "\n";
                 }
             }
         }
