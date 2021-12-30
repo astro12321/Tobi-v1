@@ -7,6 +7,7 @@
 #include <iomanip>
 
 #include "hex.hpp"
+namespace dns { namespace query { class Query; } }
 
 
 class Application 
@@ -30,6 +31,7 @@ class Application
         virtual int getAnswerRRs();
         virtual int getAuthorityRRs();
         virtual int getAdditionalRRs();
+        virtual dns::query::Query getQuery(); /////////
 };
 
 

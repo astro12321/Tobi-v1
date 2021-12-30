@@ -17,6 +17,7 @@ class Packet
     private:
         int index;
         std::string status;
+        std::string applicationProto;
         std::string transportProto;
         std::string networkProto;
         hex h;

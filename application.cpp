@@ -5,7 +5,7 @@
 #include <iomanip>
 
 #include "application.hpp"
-#include "hex.hpp"
+#include "query.hpp"
 #include "defaults.hpp"
 
 
@@ -28,3 +28,4 @@ int Application::getQuestions() { return -1; }
 int Application::getAnswerRRs() { return -1; }
 int Application::getAuthorityRRs() { return -1; }
 int Application::getAdditionalRRs() { return -1; }
+dns::query::Query Application::getQuery() { throw std::invalid_argument("No query fields in the packet"); }

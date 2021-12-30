@@ -24,7 +24,7 @@ hex::hex(std::string hex)
 {
     if (hex.length() % 2 != 0)
         throw std::invalid_argument("the hex string must have an even number length");
-
+    
     this->h = hex;
 }
 

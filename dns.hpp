@@ -8,6 +8,7 @@
 
 #include "hex.hpp"
 #include "application.hpp"
+#include "query.hpp"
 
 
 namespace dns
@@ -33,6 +34,7 @@ namespace dns
             hex &getAuthorityRRs();
             hex &getAdditionalRRs();
     };
+
 }
 
 
@@ -46,10 +48,13 @@ class DNS : public Application
         int answerRRs;
         int authorityRRs;
         int additionalRRs;
+        dns::query::Query query;
+
+        hex FindQueryHex(hex hex);
 
     public:
         DNS() = default;
-        DNS(hex &hex);
+        DNS(hex &aHex);
 
         std::string getTransactID();
         std::string getFlags();
@@ -57,6 +62,8 @@ class DNS : public Application
         int getAnswerRRs();
         int getAuthorityRRs();
         int getAdditionalRRs();
+        dns::query::Query getQuery();
+
 };
 
 

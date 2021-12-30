@@ -8,21 +8,24 @@
 #include "network.hpp"
 #include "hex.hpp"
 #include "defaults.hpp"
+#include "dns.hpp"
 
 
 Packet::Packet(int ind, hex &hex)
 {
     this->index = ind;
     this->h = hex;
-    
     this->layer = Layer(hex);
 
-    if (getLayer().networkIsValid())
+    if (layer.networkIsValid())
     {
-        this->status = setStatus(this->getLayer().getNetwork().getStatus());
+        this->status = setStatus(layer.getNetwork().getStatus());
 
         this->networkProto = setNetworkProto(layer.getNetwork().getNetworkProto());
-        this->transportProto = setTransportProto(layer.getNetwork().getTransportProto()); //Could change to take the protocol directly in transport layer
+        this->transportProto = setTransportProto(layer.getNetwork().getTransportProto());
+
+        if (layer.applicationIsValid()) this->applicationProto = layer.getApplication().getProto();
+        else this->applicationProto = UNDEF;
     }
 }
 

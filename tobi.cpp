@@ -13,6 +13,7 @@
 #include "network.hpp"
 #include "hex.hpp"
 #include "defaults.hpp"
+#include "dns.hpp"
 
 
 int opentun(char *devname, int *fd)
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
                 std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
                 std::cout << "- TTL: " << pkt.getLayer().getNetwork().getTTL() << "\n";
                 std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
-                std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";                
+                std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
 
                 if (pkt.getLayer().transportIsValid()) {
                     /*if (pkt.getTransportProto() == "ICMP") { //ICMP
@@ -103,6 +104,8 @@ int main(int argc, char *argv[])
                             std::cout << "- DNS answersRRs: " << pkt.getLayer().getApplication().getAnswerRRs() << "\n";
                             std::cout << "- DNS authorityRRs: " << pkt.getLayer().getApplication().getAuthorityRRs() << "\n";
                             std::cout << "- DNS AddRRs: " << pkt.getLayer().getApplication().getAdditionalRRs() << "\n";
+                            std::cout << "\n";
+                            std::cout << "- DNS Query name: " << pkt.getLayer().getApplication().getQuery().getName() << "\n";
                         }
 
                     }
