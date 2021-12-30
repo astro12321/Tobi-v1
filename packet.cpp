@@ -14,6 +14,7 @@ Packet::Packet(int ind, hex &hex)
 {
     this->index = ind;
     this->h = hex;
+    
     this->layer = Layer(hex);
 
     if (getLayer().networkIsValid())
@@ -43,8 +44,7 @@ std::string Packet::setStatus(int status)
 
 std::string Packet::setNetworkProto(int proto)
 {
-    switch(proto)
-    {
+    switch(proto) {
         case 4: return "IPv4";
         default: return UNDEF; //Should never return (the isValid bool would be false in this case)
     }
@@ -53,8 +53,7 @@ std::string Packet::setNetworkProto(int proto)
 
 std::string Packet::setTransportProto(int proto)
 {
-    switch(proto)
-    {
+    switch(proto) {
         case 1: return "ICMP";
         case 6: return "TCP";
         case 17: return "UDP";

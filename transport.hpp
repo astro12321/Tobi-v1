@@ -13,7 +13,7 @@ class Transport
 {
     private:
         hex h;
-        int transportProto;
+        int proto;
         int source;
         int dest;
         std::string csum;
@@ -24,7 +24,7 @@ class Transport
         virtual ~Transport() = default;
 
         hex &getHex();
-        int getTransportProto();
+        int getProto();
         int getSource();
         int getDest();
         std::string getCsum();
@@ -40,10 +40,6 @@ class Transport
         virtual int getHdrLen();
         virtual std::string getFlags();
         virtual int getWindow();
-
-        //UDP
-
-
 
     protected:
         void setSource(int source);

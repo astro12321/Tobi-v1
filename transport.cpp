@@ -12,7 +12,7 @@
 Transport::Transport(hex &hex, int proto) 
 {
     this->h = hex; 
-    this->transportProto = proto;
+    this->proto = proto;
 
     this->source = -1;
     this->dest = -1;
@@ -38,7 +38,7 @@ int Transport::getWindow() { return -1; }
 
 hex &Transport::getHex() { return this->h; }
 
-int Transport::getTransportProto() { return this->transportProto; }
+int Transport::getProto() { return this->proto; }
 int Transport::getSource() { return this->source; }
 int Transport::getDest() { return this->dest; }
 std::string Transport::getCsum() { return this->csum; }

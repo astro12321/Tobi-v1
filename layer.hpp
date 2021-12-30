@@ -9,9 +9,9 @@
 #include <memory>
 
 #include "network.hpp"
-#include "ipv4.hpp"
 #include "transport.hpp"
 #include "hex.hpp"
+#include "application.hpp"
 
 
 class Layer
@@ -19,12 +19,17 @@ class Layer
     private:
         bool networkValid;
         bool transportValid;
+        bool applicationValid;
 
         std::unique_ptr<Network> network;
         std::unique_ptr<Transport> transport;
+        std::unique_ptr<Application> application;
 
         std::unique_ptr<Network> findNetworkProto(hex &hex);
         std::unique_ptr<Transport> findTransportProto(hex &pktHex, int networkLength, int proto);
+        std::unique_ptr<Application> findApplicationProto(hex &pktHex, int headersLen);
+
+        bool isDNS();
     
     public:
         Layer() = default;
@@ -32,9 +37,11 @@ class Layer
 
         Network &getNetwork();
         Transport &getTransport();
+        Application &getApplication();
 
         bool networkIsValid();
         bool transportIsValid();
+        bool applicationIsValid();
 };
 
 
