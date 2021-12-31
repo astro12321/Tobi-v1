@@ -6,10 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "network.hpp"
 #include "layer.hpp"
-#include "hex.hpp"
-#include "defaults.hpp"
 
 
 class Packet
@@ -34,6 +31,7 @@ class Packet
         Layer &getLayer();
         std::string getStatus();
         int getIndex();
+        std::string getApplicationProto();
         std::string getTransportProto();
         std::string getNetworkProto();
 };

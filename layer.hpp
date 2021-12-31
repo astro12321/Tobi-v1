@@ -8,10 +8,11 @@
 #include <iomanip>
 #include <memory>
 
-#include "network.hpp"
 #include "transport.hpp"
-#include "hex.hpp"
-#include "application.hpp"
+
+class Network;
+class Transport;
+class Application;
 
 
 class Layer

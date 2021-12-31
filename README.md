@@ -10,3 +10,4 @@ g++ -o tobi *.cpp && sudo ./tobi
 TODO:
 - Folder cleaning
 - Reference cleaning
+- Add IP data type

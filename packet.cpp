@@ -9,6 +9,7 @@
 #include "hex.hpp"
 #include "defaults.hpp"
 #include "dns.hpp"
+#include "layer.hpp"
 
 
 Packet::Packet(int ind, hex &hex)
@@ -36,6 +37,7 @@ std::string Packet::getStatus() { return this->status; }
 int Packet::getIndex() { return this->index; }
 std::string Packet::getTransportProto() { return this->transportProto; }
 std::string Packet::getNetworkProto() { return this->networkProto; }
+std::string Packet::getApplicationProto() { return this->applicationProto; }
 
 
 std::string Packet::setStatus(int status)

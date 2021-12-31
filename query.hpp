@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "hex.hpp"
+class hex;
 
 
 namespace dns

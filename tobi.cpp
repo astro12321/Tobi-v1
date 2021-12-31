@@ -14,6 +14,7 @@
 #include "hex.hpp"
 #include "defaults.hpp"
 #include "dns.hpp"
+#include "layer.hpp"
 
 
 int opentun(char *devname, int *fd)
@@ -61,10 +62,8 @@ int main(int argc, char *argv[])
             std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
 
             if (pkt.getLayer().networkIsValid()) {
-                std::cout << "- Network part: " << pkt.getLayer().getNetwork().getHex().to_string() << "\n";
                 std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
                 std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
-                std::cout << "- TTL: " << pkt.getLayer().getNetwork().getTTL() << "\n";
                 std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
                 std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
 
@@ -95,7 +94,7 @@ int main(int argc, char *argv[])
 
                     if (pkt.getLayer().applicationIsValid()) {
                         if (pkt.getLayer().getApplication().getProto() == "DNS") {
-                            std::cout << "- Application Protocol: " << pkt.getLayer().getApplication().getProto() << "\n";
+                            std::cout << "- Application Protocol: " << pkt.getApplicationProto() << "\n";
                             std::cout << "- Status: " << pkt.getStatus() << "\n";
                             std::cout << "\n\n";
                             std::cout << "- DNS transaction ID: " << pkt.getLayer().getApplication().getTransactID() << "\n";
@@ -106,6 +105,8 @@ int main(int argc, char *argv[])
                             std::cout << "- DNS AddRRs: " << pkt.getLayer().getApplication().getAdditionalRRs() << "\n";
                             std::cout << "\n";
                             std::cout << "- DNS Query name: " << pkt.getLayer().getApplication().getQuery().getName() << "\n";
+                            std::cout << "- DNS Query type: " << pkt.getLayer().getApplication().getQuery().getType() << "\n";
+                            std::cout << "- DNS Query class: " << pkt.getLayer().getApplication().getQuery().getClass() << "\n";
                         }
 
                     }
@@ -120,6 +121,5 @@ int main(int argc, char *argv[])
 
         if(write(fd, &pkt.getHex().getBytes(), bytesRead) < 0) perror("Error writing to tun interface");
     }
-
 
 }

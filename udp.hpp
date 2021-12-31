@@ -6,8 +6,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "hex.hpp"
-#include "transport.hpp"
+class hex;
+class Transport;
 
 
 namespace udp
