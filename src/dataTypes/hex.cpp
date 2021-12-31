@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "hex.hpp"
+#include <hex.hpp>
 
 
 //Constructors
@@ -65,7 +65,7 @@ hex &hex::operator=(char *hex) { return *this; }
 std::ostream &operator<<(std::ostream& os, const hex& hex) { return os << hex.h; }
 
 //return hex values by bytes (so by pairs)
-byte hex::operator[](int ind) 
+byte hex::operator[](size_t ind) 
 {
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);

@@ -4,9 +4,9 @@
 #include <sstream>
 #include <iomanip>
 
-#include "application.hpp"
-#include "query.hpp"
-#include "defaults.hpp"
+#include <application.hpp>
+#include <query.hpp>
+#include <defaults.hpp>
 
 
 Application::Application(hex &hex, std::string proto) 

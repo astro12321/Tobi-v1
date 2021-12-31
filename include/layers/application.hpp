@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "hex.hpp"
+#include <hex.hpp>
 namespace dns { namespace query { class Query; } }
 
 

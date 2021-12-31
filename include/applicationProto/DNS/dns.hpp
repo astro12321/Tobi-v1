@@ -6,8 +6,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "application.hpp"
-#include "query.hpp"
+#include <application.hpp>
+#include <query.hpp>
 
 class hex;
 

@@ -4,9 +4,9 @@
 #include <sstream>
 #include <iomanip>
 
-#include "network.hpp"
-#include "hex.hpp"
-#include "defaults.hpp"
+#include <network.hpp>
+#include <hex.hpp>
+#include <defaults.hpp>
 
 
 Network::Network(hex &hex, int proto) 

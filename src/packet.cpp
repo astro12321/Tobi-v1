@@ -4,12 +4,12 @@
 #include <sstream>
 #include <iomanip>
 
-#include "packet.hpp"
-#include "network.hpp"
-#include "hex.hpp"
-#include "defaults.hpp"
-#include "dns.hpp"
-#include "layer.hpp"
+#include <packet.hpp>
+#include <network.hpp>
+#include <hex.hpp>
+#include <defaults.hpp>
+#include <dns.hpp>
+#include <layer.hpp>
 
 
 Packet::Packet(int ind, hex &hex)

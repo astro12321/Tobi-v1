@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "network.hpp"
+#include <network.hpp>
 
 class hex;
 

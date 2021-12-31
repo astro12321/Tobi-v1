@@ -49,7 +49,7 @@ class hex
 
         friend std::ostream &operator<<(std::ostream& os, const hex& hex);
         hex &operator=(char *hex);
-        byte operator[](int index);
+        byte operator[](size_t ind);
 };
 
 

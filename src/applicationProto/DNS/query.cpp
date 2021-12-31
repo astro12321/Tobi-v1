@@ -4,8 +4,8 @@
 #include <sstream>
 #include <iomanip>
 
-#include "hex.hpp"
-#include "query.hpp"
+#include <hex.hpp>
+#include <query.hpp>
 
 
 namespace dns

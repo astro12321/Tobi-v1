@@ -1,4 +1,4 @@
-//g++ -o tobi *.cpp && sudo ./tobi
+//g++ -o tobi **/*.cpp -I ~/Tobi/src -I ~/Tobi/src/applicationProto -I ~/Tobi/src/networkProto -I ~/Tobi/src/transportProto -I ~/Tobi/src/layers -I ~/Tobi/src/dataTypes && sudo ./tobi
 //sudo valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./tobi
 //for debug: https://hpd.gasmi.net/
 #include <iostream>
@@ -9,12 +9,12 @@
 #include <linux/if.h>
 #include <linux/if_tun.h>
 
-#include "packet.hpp"
-#include "network.hpp"
-#include "hex.hpp"
-#include "defaults.hpp"
-#include "dns.hpp"
-#include "layer.hpp"
+#include <packet.hpp>
+#include <network.hpp>
+#include <hex.hpp>
+#include <defaults.hpp>
+#include <dns.hpp>
+#include <layer.hpp>
 
 
 int opentun(char *devname, int *fd)
