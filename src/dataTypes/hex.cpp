@@ -12,14 +12,6 @@
 hex::hex() { this->h = ""; }
 
 
-hex::hex(const hex &hex)
-{
-    this->h = hex.h;
-    this->b = hex.b;
-    this->len = hex.len;
-}
-
-
 hex::hex(std::string hex)
 {
     if (hex.length() % 2 != 0)
