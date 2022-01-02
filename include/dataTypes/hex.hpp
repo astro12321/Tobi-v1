@@ -34,8 +34,6 @@ class hex
     
     public:
         hex();
-        hex(const hex &hex);
-        //hex(const char *hex);
         hex(std::string hex);
         hex(unsigned char *bytes, int len);
 

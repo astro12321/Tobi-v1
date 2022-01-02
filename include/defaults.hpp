@@ -3,9 +3,12 @@
 
 #include <string>
 
+class IP;
+
 
 extern int BUFFERSIZE;
 extern std::string UNDEF;
-extern std::string INTIP;
+extern IP INTIP;
+
 
 #endif

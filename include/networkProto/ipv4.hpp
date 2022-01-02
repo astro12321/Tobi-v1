@@ -8,6 +8,7 @@
 
 #include <network.hpp>
 
+class IP;
 class hex;
 
 
@@ -37,12 +38,11 @@ class Ipv4 : public Network
 {
     private:
         ipv4::Frame frame;
-        std::string source;
-        std::string dest;
+        IP source;
+        IP dest;
         int ttl;
         int transportProto;
 
-        std::string hexToIP(const hex &hex) const;
         int findPktStatus() const;
     
     public:

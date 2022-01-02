@@ -62,8 +62,8 @@ int main(int argc, char *argv[])
             std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
 
             if (pkt.getLayer().networkIsValid()) {
-                std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource() << "\n";
-                std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest() << "\n";
+                std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource().to_string() << "\n";
+                std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest().to_string() << "\n";
                 std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
                 std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
 

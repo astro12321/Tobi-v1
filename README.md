@@ -6,6 +6,3 @@ Get started with :
 ./sudo createInterface
 make && ./bin/tobi
 ```
-
-TODO:
-- Add IP data type
