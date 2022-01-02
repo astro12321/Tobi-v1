@@ -16,16 +16,16 @@ Application::Application(hex &hex, std::string proto)
 }
 
 
-hex &Application::getHex() { return this->h; }
+const hex &Application::getHex() const { return this->h; }
 
-std::string Application::getProto() { return this->proto; }
+std::string Application::getProto() const { return this->proto; }
 
 
 //virtual DNS
-std::string Application::getTransactID() { return UNDEF; }
-std::string Application::getFlags() { return UNDEF; }
-int Application::getQuestions() { return -1; }
-int Application::getAnswerRRs() { return -1; }
-int Application::getAuthorityRRs() { return -1; }
-int Application::getAdditionalRRs() { return -1; }
-dns::query::Query Application::getQuery() { throw std::invalid_argument("No query fields in the packet"); }
+std::string Application::getTransactID() const { return UNDEF; }
+std::string Application::getFlags() const { return UNDEF; }
+int Application::getQuestions() const { return -1; }
+int Application::getAnswerRRs() const { return -1; }
+int Application::getAuthorityRRs() const { return -1; }
+int Application::getAdditionalRRs() const { return -1; }
+const dns::query::Query &Application::getQuery() const { throw std::invalid_argument("No query fields in the packet"); }

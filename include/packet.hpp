@@ -20,20 +20,20 @@ class Packet
         hex h;
         Layer layer;
         
-        std::string setStatus(int status);
-        std::string setTransportProto(int proto);
-        std::string setNetworkProto(int proto);
+        std::string setStatus(int status) const;
+        std::string setTransportProto(int proto) const;
+        std::string setNetworkProto(int proto) const;
     
     public:
         Packet(int ind, hex &hex);
 
-        hex &getHex();
-        Layer &getLayer();
-        std::string getStatus();
-        int getIndex();
-        std::string getApplicationProto();
-        std::string getTransportProto();
-        std::string getNetworkProto();
+        const hex &getHex() const;
+        const Layer &getLayer() const;
+        std::string getStatus() const;
+        int getIndex() const;
+        std::string getApplicationProto() const;
+        std::string getTransportProto() const;
+        std::string getNetworkProto() const;
 };
 
 

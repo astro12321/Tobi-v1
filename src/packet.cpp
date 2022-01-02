@@ -31,23 +31,23 @@ Packet::Packet(int ind, hex &hex)
 }
 
 
-hex &Packet::getHex() { return this->h; }
-Layer &Packet::getLayer() { return this->layer; }
-std::string Packet::getStatus() { return this->status; }
-int Packet::getIndex() { return this->index; }
-std::string Packet::getTransportProto() { return this->transportProto; }
-std::string Packet::getNetworkProto() { return this->networkProto; }
-std::string Packet::getApplicationProto() { return this->applicationProto; }
+const hex &Packet::getHex() const { return this->h; }
+const Layer &Packet::getLayer() const { return this->layer; }
+std::string Packet::getStatus() const { return this->status; }
+int Packet::getIndex() const { return this->index; }
+std::string Packet::getTransportProto() const { return this->transportProto; }
+std::string Packet::getNetworkProto() const { return this->networkProto; }
+std::string Packet::getApplicationProto() const { return this->applicationProto; }
 
 
-std::string Packet::setStatus(int status)
+std::string Packet::setStatus(int status) const
 {
     if (status == 1) return "SENT";
     return "RECV";
 }
 
 
-std::string Packet::setNetworkProto(int proto)
+std::string Packet::setNetworkProto(int proto) const
 {
     switch(proto) {
         case 4: return "IPv4";
@@ -56,7 +56,7 @@ std::string Packet::setNetworkProto(int proto)
 }
 
 
-std::string Packet::setTransportProto(int proto)
+std::string Packet::setTransportProto(int proto) const
 {
     switch(proto) {
         case 1: return "ICMP";

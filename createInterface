@@ -13,5 +13,6 @@ ip rule add from all lookup astro
 ip route add default dev tun0 table astro
 ip rule add iif tun0 lookup main priority 500
 
+#Route responses through the TUN interface
 iptables -t nat -A POSTROUTING -o tun0 -s 10.0.0.1 -j SNAT --to-source 10.0.0.2
 iptables -t nat -A POSTROUTING -o ens32 -s 10.0.0.2 -j MASQUERADE

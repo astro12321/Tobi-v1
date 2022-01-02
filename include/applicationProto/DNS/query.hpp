@@ -24,9 +24,9 @@ namespace dns
                 Frame() = default;
                 Frame(hex &aHex);
 
-                hex &getName();
-                hex &getType();
-                hex &getClass();
+                const hex &getName() const;
+                const hex &getType() const;
+                const hex &getClass() const;
         };
 
 
@@ -42,9 +42,9 @@ namespace dns
                 Query() = default;
                 Query(hex &hex);
 
-                std::string getName();
-                int getType();
-                std::string getClass();
+                std::string getName() const;
+                int getType() const;
+                std::string getClass() const;
         };
     }
 

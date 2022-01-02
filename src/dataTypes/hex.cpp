@@ -44,28 +44,19 @@ hex::hex(unsigned char *bytes, int len)
 }
 
 
-//Functions
-int hex::length() { return this->len; } //Number of bytes read (aka bytesRead)
+int hex::length() const { return this->len; } //Number of bytes read (aka bytesRead)
+int hex::numberOfBytes() const { return this->h.length() / 2; }
 
-int hex::numberOfBytes() { return this->h.length() / 2; }
+int hex::to_dec() const { return std::stoul(this->h, nullptr, 16); }
+std::string hex::to_string() const { return this->h; }
+std::string hex::to_fstring() const { return "0x" + this->h; }
 
-int hex::to_dec() { return std::stoul(this->h, nullptr, 16); }
+const unsigned char &hex::getBytes() const { return *this->b; }
 
-std::string hex::to_string() { return this->h; }
-std::string hex::to_fstring() { return "0x" + this->h; }
-
-unsigned char &hex::getBytes() { return *this->b; }
-
-hex hex::substr(int start, int len) { return hex(this->h.substr(start * 2, len * 2)); }
-
-
-//Operator overload
-hex &hex::operator=(char *hex) { return *this; }
-
-std::ostream &operator<<(std::ostream& os, const hex& hex) { return os << hex.h; }
+hex hex::substr(int start, int len) const { return hex(this->h.substr(start * 2, len * 2)); }
 
 //return hex values by bytes (so by pairs)
-byte hex::operator[](size_t ind) 
+byte hex::operator [] (size_t ind) const
 {
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);
@@ -85,10 +76,10 @@ byte::byte(std::string byte)
     this->b = byte;
 }
 
-int byte::to_dec() { return std::stoul(b, nullptr, 16); }
+int byte::to_dec() const { return std::stoul(b, nullptr, 16); }
 
-std::string byte::to_string() { return b; }
-std::string byte::to_fstring() { return "0x" + this->b; }
+std::string byte::to_string() const { return b; }
+std::string byte::to_fstring() const { return "0x" + this->b; }
 
-byte byte::first() { return byte(std::string("0") + b[0]); }
-byte byte::last() { return byte(std::string("0") + b[1]); }
+byte byte::first() const { return byte(std::string("0") + b[0]); }
+byte byte::last() const { return byte(std::string("0") + b[1]); }

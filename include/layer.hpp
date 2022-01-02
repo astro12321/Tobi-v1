@@ -26,23 +26,23 @@ class Layer
         std::unique_ptr<Transport> transport;
         std::unique_ptr<Application> application;
 
-        std::unique_ptr<Network> findNetworkProto(hex &hex);
-        std::unique_ptr<Transport> findTransportProto(hex &pktHex, int networkLength, int proto);
-        std::unique_ptr<Application> findApplicationProto(hex &pktHex, int headersLen);
+        std::unique_ptr<Network> findNetworkProto(hex &hex) const;
+        std::unique_ptr<Transport> findTransportProto(hex &pktHex, int networkLength, int proto) const;
+        std::unique_ptr<Application> findApplicationProto(hex &pktHex, int headersLen) const;
 
-        bool isDNS();
+        bool isDNS() const;
     
     public:
         Layer() = default;
         Layer(hex &pktHex);
 
-        Network &getNetwork();
-        Transport &getTransport();
-        Application &getApplication();
+        const Network &getNetwork() const;
+        const Transport &getTransport() const;
+        const Application &getApplication() const;
 
-        bool networkIsValid();
-        bool transportIsValid();
-        bool applicationIsValid();
+        bool networkIsValid() const;
+        bool transportIsValid() const;
+        bool applicationIsValid() const;
 };
 
 

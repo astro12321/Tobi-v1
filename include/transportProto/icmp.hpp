@@ -24,10 +24,10 @@ namespace icmp
             Frame() = default;
             Frame(hex &aHex);
 
-            byte &getType();
-            byte &getCode();
-            hex &getCsum();
-            hex &getData();
+            const byte &getType() const;
+            const byte &getCode() const;
+            const hex &getCsum() const;
+            const hex &getData() const;
     };
 }
 
@@ -45,9 +45,9 @@ class ICMP : public Transport
         ICMP() = default;
         ICMP(hex &hex);
 
-        int getType();
-        int getCode();
-        std::string getData();
+        int getType() const;
+        int getCode() const;
+        std::string getData() const;
 };
 
 

@@ -39,17 +39,17 @@ Layer::Layer(hex &pktHex)
 }
 
 
-Network &Layer::getNetwork() { return *(this->network); }
-Transport &Layer::getTransport() { return *(this->transport); }
-Application &Layer::getApplication() { return *(this->application); }
+const Network &Layer::getNetwork() const { return *(this->network); }
+const Transport &Layer::getTransport() const { return *(this->transport); }
+const Application &Layer::getApplication() const { return *(this->application); }
 
-bool Layer::networkIsValid() { return this->networkValid; }
-bool Layer::transportIsValid() { return this->transportValid; }
-bool Layer::applicationIsValid() { return this->applicationValid; }
+bool Layer::networkIsValid() const { return this->networkValid; }
+bool Layer::transportIsValid() const { return this->transportValid; }
+bool Layer::applicationIsValid() const { return this->applicationValid; }
 
 
 //Gotta use pointers because polymorphism requires it (smart pointers)
-std::unique_ptr<Network> Layer::findNetworkProto(hex &pktHex)
+std::unique_ptr<Network> Layer::findNetworkProto(hex &pktHex) const
 {
     int ipVersion = pktHex[0].first().to_dec();
     
@@ -62,7 +62,7 @@ std::unique_ptr<Network> Layer::findNetworkProto(hex &pktHex)
 }
 
 
-std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLength, int proto)
+std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLength, int proto) const
 {
     switch (proto)
     {
@@ -95,7 +95,7 @@ std::unique_ptr<Transport> Layer::findTransportProto(hex &pktHex, int networkLen
 }
 
 
-std::unique_ptr<Application> Layer::findApplicationProto(hex &pktHex, int headersLen)
+std::unique_ptr<Application> Layer::findApplicationProto(hex &pktHex, int headersLen) const
 {
     hex appHex = pktHex.substr(headersLen, pktHex.numberOfBytes() - headersLen);
 
@@ -105,7 +105,7 @@ std::unique_ptr<Application> Layer::findApplicationProto(hex &pktHex, int header
 }
 
 
-bool Layer::isDNS() {
+bool Layer::isDNS() const {
     if (this->getTransport().getDest() == 53 || this->getTransport().getSource() == 53) return true;
     return false;
 }

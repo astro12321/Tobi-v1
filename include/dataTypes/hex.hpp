@@ -17,11 +17,11 @@ class byte
     public:
         byte();
         byte(std::string byte);
-        int to_dec();
-        std::string to_string();
-        std::string to_fstring();
-        byte first();
-        byte last();
+        int to_dec() const;
+        std::string to_string() const;
+        std::string to_fstring() const;
+        byte first() const;
+        byte last() const;
 };
 
 
@@ -39,17 +39,16 @@ class hex
         hex(std::string hex);
         hex(unsigned char *bytes, int len);
 
-        int length();
-        int numberOfBytes();
-        int to_dec();
-        std::string to_string();
-        std::string to_fstring();
-        unsigned char &getBytes();
-        hex substr(int start, int len);
+        int length() const;
+        int numberOfBytes() const;
+        int to_dec() const;
+        std::string to_string() const;
+        std::string to_fstring() const;
+        const unsigned char &getBytes() const;
 
-        friend std::ostream &operator<<(std::ostream& os, const hex& hex);
-        hex &operator=(char *hex);
-        byte operator[](size_t ind);
+        hex substr (int start, int len) const;
+
+        byte operator [] (size_t ind) const;
 };
 
 

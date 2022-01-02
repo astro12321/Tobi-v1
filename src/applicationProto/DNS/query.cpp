@@ -22,9 +22,9 @@ namespace dns
         }
 
 
-        hex &Frame::getName() { return this->name; }
-        hex &Frame::getType() { return this->type; }
-        hex &Frame::getClass() { return this->_class; }
+        const hex &Frame::getName() const { return this->name; }
+        const hex &Frame::getType() const { return this->type; }
+        const hex &Frame::getClass() const { return this->_class; }
 
 
 
@@ -38,9 +38,9 @@ namespace dns
         }
 
 
-        std::string Query::getName() { return this->name; }
-        int Query::getType() { return this->type; }
-        std::string Query::getClass() { return this->_class; }
+        std::string Query::getName() const { return this->name; }
+        int Query::getType() const { return this->type; }
+        std::string Query::getClass() const { return this->_class; }
     }
 
 }

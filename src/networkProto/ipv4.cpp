@@ -20,10 +20,10 @@ namespace ipv4
         this->transportProto = aHex[9];
     }
 
-    hex &Frame::getSource() { return this->source; }   
-    hex &Frame::getDest() { return this->dest; }
-    byte &Frame::getTtl() { return this->ttl; }
-    byte &Frame::getTransportProto() { return this->transportProto; }
+    const hex &Frame::getSource() const { return this->source; }   
+    const hex &Frame::getDest() const { return this->dest; }
+    const byte &Frame::getTtl() const { return this->ttl; }
+    const byte &Frame::getTransportProto() const { return this->transportProto; }
 }
 
 
@@ -44,12 +44,12 @@ Ipv4::Ipv4(hex &hex): Network(hex, 4)
 }
 
 
-std::string Ipv4::hexToIP(hex &hex) { return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
+std::string Ipv4::hexToIP(const hex &hex) const {  return std::to_string(hex[0].to_dec()) + "." + std::to_string(hex[1].to_dec()) + "." + std::to_string(hex[2].to_dec()) + "." + std::to_string(hex[3].to_dec()); }
 
 
-int Ipv4::getTTL() { return this->ttl; }
+int Ipv4::getTTL() const { return this->ttl; }
 
-int Ipv4::findPktStatus() {
+int Ipv4::findPktStatus() const {
     if (this->getSource() == INTIP) return 1;
     return 0;
 }

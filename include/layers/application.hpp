@@ -21,17 +21,17 @@ class Application
         Application(hex &hex, std::string proto);
         virtual ~Application() = default;
 
-        hex &getHex();
-        std::string getProto();
+        const hex &getHex() const; 
+        std::string getProto() const;
 
         //DNS
-        virtual std::string getTransactID();
-        virtual std::string getFlags();
-        virtual int getQuestions();
-        virtual int getAnswerRRs();
-        virtual int getAuthorityRRs();
-        virtual int getAdditionalRRs();
-        virtual dns::query::Query getQuery(); /////////
+        virtual std::string getTransactID() const;
+        virtual std::string getFlags() const;
+        virtual int getQuestions() const;
+        virtual int getAnswerRRs() const;
+        virtual int getAuthorityRRs() const;
+        virtual int getAdditionalRRs() const;
+        const virtual dns::query::Query &getQuery() const;
 };
 
 

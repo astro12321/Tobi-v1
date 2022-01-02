@@ -22,12 +22,12 @@ namespace dns
         this->additionalRRs = aHex.substr(10, 2);
     }
 
-    hex &Frame::getTransactID() { return this->transactID; }
-    hex &Frame::getFlags() { return this->flags; }
-    hex &Frame::getQuestions() { return this->questions; }
-    hex &Frame::getAnswerRRs() { return this->answerRRs; }
-    hex &Frame::getAuthorityRRs() { return this->authorityRRs; }
-    hex &Frame::getAdditionalRRs() { return this->additionalRRs; }
+    const hex &Frame::getTransactID() const { return transactID; }
+    const hex &Frame::getFlags() const { return this->flags; }
+    const hex &Frame::getQuestions() const { return this->questions; }
+    const hex &Frame::getAnswerRRs() const { return this->answerRRs; }
+    const hex &Frame::getAuthorityRRs() const { return this->authorityRRs; }
+    const hex &Frame::getAdditionalRRs() const { return this->additionalRRs; }
 }
 
 
@@ -52,10 +52,10 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
 }
 
 
-hex DNS::FindQueryHex(hex hex)
+hex DNS::FindQueryHex(hex hex) const
 {
     int i = 0;
-
+    
     while (true) 
     {
         int len = hex[i].to_dec(); //DNS names are separated in the packet by the length of the next word (the length replace the .(dot) that would be there)
@@ -72,10 +72,10 @@ hex DNS::FindQueryHex(hex hex)
 }
 
 
-std::string DNS::getTransactID() { return this->transactID; }
-std::string DNS::getFlags() { return this->flags; }
-int DNS::getQuestions() { return this->questions; }
-int DNS::getAnswerRRs() { return this->answerRRs; }
-int DNS::getAuthorityRRs() { return this->authorityRRs; }
-int DNS::getAdditionalRRs() { return this->additionalRRs; }
-dns::query::Query DNS::getQuery() { return this->query; }
+std::string DNS::getTransactID() const { return this->transactID; }
+std::string DNS::getFlags() const { return this->flags; }
+int DNS::getQuestions() const { return this->questions; }
+int DNS::getAnswerRRs() const { return this->answerRRs; }
+int DNS::getAuthorityRRs() const { return this->authorityRRs; }
+int DNS::getAdditionalRRs() const { return this->additionalRRs; }
+const dns::query::Query &DNS::getQuery() const { return this->query; }

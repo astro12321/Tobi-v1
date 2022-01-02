@@ -23,9 +23,9 @@ namespace udp
             Frame() = default;
             Frame(hex &aHex);
 
-            hex &getSource();
-            hex &getDest();
-            hex &getCsum();
+            const hex &getSource() const;
+            const hex &getDest() const;
+            const hex &getCsum() const;
     };
 }
 

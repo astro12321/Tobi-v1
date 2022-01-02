@@ -22,15 +22,15 @@ Network::Network(hex &hex, int proto)
 
 
 //virtual IPv4
-int Network::getTTL() { return -1; }
+int Network::getTTL() const { return -1; }
 
-hex& Network::getHex() { return this->h; }
+const hex& Network::getHex() const { return this->h; }
 
-std::string Network::getSource() { return this->source; };
-std::string Network::getDest() { return this->dest; };
-int Network::getStatus() { return this->status; }
-int Network::getTransportProto() { return this->transportProto; }
-int Network::getNetworkProto() { return this->networkProto; }
+std::string Network::getSource() const { return this->source; };
+std::string Network::getDest() const { return this->dest; };
+int Network::getStatus() const { return this->status; }
+int Network::getTransportProto() const { return this->transportProto; }
+int Network::getNetworkProto() const { return this->networkProto; }
 
 
 void Network::setTransportProto(int transportProto) { this->transportProto = transportProto; }

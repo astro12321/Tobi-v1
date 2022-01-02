@@ -28,12 +28,12 @@ namespace dns
             Frame() = default;
             Frame(hex &aHex);
 
-            hex &getTransactID();
-            hex &getFlags();
-            hex &getQuestions();
-            hex &getAnswerRRs();
-            hex &getAuthorityRRs();
-            hex &getAdditionalRRs();
+            const hex &getTransactID() const;
+            const hex &getFlags() const;
+            const hex &getQuestions() const;
+            const hex &getAnswerRRs() const;
+            const hex &getAuthorityRRs() const;
+            const hex &getAdditionalRRs() const;
     };
 
 }
@@ -51,19 +51,19 @@ class DNS : public Application
         int additionalRRs;
         dns::query::Query query;
 
-        hex FindQueryHex(hex hex);
+        hex FindQueryHex(hex hex) const;
 
     public:
         DNS() = default;
         DNS(hex &aHex);
 
-        std::string getTransactID();
-        std::string getFlags();
-        int getQuestions();
-        int getAnswerRRs();
-        int getAuthorityRRs();
-        int getAdditionalRRs();
-        dns::query::Query getQuery();
+        std::string getTransactID() const;
+        std::string getFlags() const;
+        int getQuestions() const;
+        int getAnswerRRs() const;
+        int getAuthorityRRs() const;
+        int getAdditionalRRs() const;
+        const dns::query::Query &getQuery() const;
 
 };
 

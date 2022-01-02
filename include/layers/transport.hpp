@@ -23,23 +23,23 @@ class Transport
         Transport(hex &hex, int proto);
         virtual ~Transport() = default;
 
-        hex &getHex();
-        int getProto();
-        int getSource();
-        int getDest();
-        std::string getCsum();
+        const hex &getHex() const;
+        int getProto() const;
+        int getSource() const;
+        int getDest() const;
+        std::string getCsum() const;
 
         //ICMP
-        virtual int getType();
-        virtual int getCode();
-        virtual std::string getData();
+        virtual int getType() const;
+        virtual int getCode() const;
+        virtual std::string getData() const;
 
         //TCP
-        virtual std::string getSeqNumber();
-        virtual std::string getAckNumber();
-        virtual int getHdrLen();
-        virtual std::string getFlags();
-        virtual int getWindow();
+        virtual std::string getSeqNumber() const;
+        virtual std::string getAckNumber() const;
+        virtual int getHdrLen() const;
+        virtual std::string getFlags() const;
+        virtual int getWindow() const;
 
     protected:
         void setSource(int source);

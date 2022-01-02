@@ -20,10 +20,10 @@ namespace icmp
         this->data = aHex.substr(16, aHex.numberOfBytes() - 16);
     }
 
-    byte &Frame::getType() { return this->type; }
-    byte &Frame::getCode() { return this->code; }
-    hex &Frame::getCsum() { return this->csum; }
-    hex &Frame::getData() { return this->data; }
+    const byte &Frame::getType() const { return this->type; }
+    const byte &Frame::getCode() const { return this->code; }
+    const hex &Frame::getCsum() const { return this->csum; }
+    const hex &Frame::getData() const { return this->data; }
 }
 
 
@@ -41,6 +41,6 @@ ICMP::ICMP(hex &hex): Transport(hex, 1) //1 for ICMP
 }
 
 
-int ICMP::getType() { return this->type; }
-int ICMP::getCode() { return this->code; }
-std::string ICMP::getData() { return this->data; }
+int ICMP::getType() const { return this->type; }
+int ICMP::getCode() const { return this->code; }
+std::string ICMP::getData() const { return this->data; }

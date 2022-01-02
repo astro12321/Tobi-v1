@@ -23,14 +23,14 @@ namespace tcp
         this->csum = aHex.substr(16, 2);
     }
 
-    hex &Frame::getSource() { return this->source; }
-    hex &Frame::getDest() { return this->dest; }
-    hex &Frame::getSeqNumber() { return this->seqNumber; }
-    hex &Frame::getAckNumber() { return this->ackNumber; }
-    byte &Frame::getHdrLen() { return this->hdrLen; }
-    hex &Frame::getFlags() { return this->flags; }
-    hex &Frame::getWindow() { return this->window; }
-    hex &Frame::getCsum() { return this->csum; }
+    const hex &Frame::getSource() const { return this->source; }
+    const hex &Frame::getDest() const { return this->dest; }
+    const hex &Frame::getSeqNumber() const { return this->seqNumber; }
+    const hex &Frame::getAckNumber() const { return this->ackNumber; }
+    const byte &Frame::getHdrLen() const { return this->hdrLen; }
+    const hex &Frame::getFlags() const { return this->flags; }
+    const hex &Frame::getWindow() const { return this->window; }
+    const hex &Frame::getCsum() const { return this->csum; }
 }
 
 
@@ -54,8 +54,8 @@ TCP::TCP(hex &hex): Transport(hex, 6) //6 for TCP
 }
 
 
-std::string TCP::getSeqNumber() { return this->seqNumber; }
-std::string TCP::getAckNumber() { return this->ackNumber; }
-int TCP::getHdrLen() { return this->hdrLen; }
-std::string TCP::getFlags() { return this->flags; }
-int TCP::getWindow() { return this->window; }
+std::string TCP::getSeqNumber() const { return this->seqNumber; }
+std::string TCP::getAckNumber() const { return this->ackNumber; }
+int TCP::getHdrLen() const { return this->hdrLen; }
+std::string TCP::getFlags() const { return this->flags; }
+int TCP::getWindow() const { return this->window; }

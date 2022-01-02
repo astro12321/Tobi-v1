@@ -8,5 +8,4 @@ make && ./bin/tobi
 ```
 
 TODO:
-- Reference cleaning
 - Add IP data type

@@ -28,14 +28,14 @@ namespace tcp
             Frame() = default;
             Frame(hex &aHex);
 
-            hex &getSource();
-            hex &getDest();
-            hex &getSeqNumber();
-            hex &getAckNumber();
-            hex &getFlags();
-            byte &getHdrLen();
-            hex &getWindow();
-            hex &getCsum();
+            const hex &getSource() const;
+            const hex &getDest() const;
+            const hex &getSeqNumber() const;
+            const hex &getAckNumber() const;
+            const hex &getFlags() const;
+            const byte &getHdrLen() const;
+            const hex &getWindow() const;
+            const hex &getCsum() const;
     };
 }
 
@@ -57,11 +57,11 @@ class TCP : public Transport
         TCP() = default;
         TCP(hex &hex);
 
-        std::string getSeqNumber();
-        std::string getAckNumber();
-        int getHdrLen();
-        std::string getFlags();
-        int getWindow();
+        std::string getSeqNumber() const;
+        std::string getAckNumber() const;
+        int getHdrLen() const;
+        std::string getFlags() const;
+        int getWindow() const;
 };
 
 

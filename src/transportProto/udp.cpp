@@ -18,9 +18,9 @@ namespace udp
         this->csum = aHex.substr(6, 2);
     }
 
-    hex &Frame::getSource() { return this->source; }
-    hex &Frame::getDest() { return this->dest; }
-    hex &Frame::getCsum() { return this->csum; }
+    const hex &Frame::getSource() const { return this->source; }
+    const hex &Frame::getDest() const { return this->dest; }
+    const hex &Frame::getCsum() const { return this->csum; }
 }
 
 

@@ -21,27 +21,24 @@ Transport::Transport(hex &hex, int proto)
 
 
 //virtual ICMP
-int Transport::getType() { return -1; }
-int Transport::getCode() { return -1; }
-std::string Transport::getData() { return UNDEF; }
+int Transport::getType() const { return -1; }
+int Transport::getCode() const { return -1; }
+std::string Transport::getData() const { return UNDEF; }
 
 //virtual TCP
-std::string Transport::getSeqNumber() { return UNDEF; }
-std::string Transport::getAckNumber() { return UNDEF; }
-int Transport::getHdrLen() { return -1; }
-std::string Transport::getFlags() { return UNDEF; }
-int Transport::getWindow() { return -1; }
-
-//virtual UDP
+std::string Transport::getSeqNumber() const { return UNDEF; }
+std::string Transport::getAckNumber() const { return UNDEF; }
+int Transport::getHdrLen() const { return -1; }
+std::string Transport::getFlags() const { return UNDEF; }
+int Transport::getWindow() const { return -1; }
 
 
 
-hex &Transport::getHex() { return this->h; }
-
-int Transport::getProto() { return this->proto; }
-int Transport::getSource() { return this->source; }
-int Transport::getDest() { return this->dest; }
-std::string Transport::getCsum() { return this->csum; }
+const hex &Transport::getHex() const { return this->h; }
+int Transport::getProto() const { return this->proto; }
+int Transport::getSource() const { return this->source; }
+int Transport::getDest() const { return this->dest; }
+std::string Transport::getCsum() const { return this->csum; }
 
 
 void Transport::setSource(int source) { this->source = source; }

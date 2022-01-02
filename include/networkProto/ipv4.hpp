@@ -25,10 +25,10 @@ namespace ipv4 //Namespace because this Hex class will have fields that are uniq
             Frame() = default;
             Frame(hex &aHex);
 
-            hex &getSource();
-            hex &getDest();
-            byte &getTtl();
-            byte &getTransportProto();
+            const hex &getSource() const;
+            const hex &getDest() const;
+            const byte &getTtl() const;
+            const byte &getTransportProto() const;
     };
 }
 
@@ -42,14 +42,14 @@ class Ipv4 : public Network
         int ttl;
         int transportProto;
 
-        std::string hexToIP(hex &hex);
-        int findPktStatus();
+        std::string hexToIP(const hex &hex) const;
+        int findPktStatus() const;
     
     public:
         Ipv4() = default;
         Ipv4(hex &hex);
 
-        int getTTL();
+        int getTTL() const;
 };
 
 
