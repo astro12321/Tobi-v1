@@ -6,9 +6,9 @@
 #include <iomanip>
 
 #include <hex.hpp>
+#include <byte.hpp>
 
 
-//Constructors
 hex::hex() { this->h = ""; }
 
 
@@ -53,25 +53,3 @@ byte hex::operator [] (size_t ind) const
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);
 }
-
-
-////////////////////////////////////////////////////////////////////////
-
-
-byte::byte() { this->b = "00"; }
-
-byte::byte(std::string byte)
-{
-    if (byte.length() != 2)
-        throw std::invalid_argument("a byte must be composed of 2 hex character");
-
-    this->b = byte;
-}
-
-int byte::to_dec() const { return std::stoul(b, nullptr, 16); }
-
-std::string byte::to_string() const { return b; }
-std::string byte::to_fstring() const { return "0x" + this->b; }
-
-byte byte::first() const { return byte(std::string("0") + b[0]); }
-byte byte::last() const { return byte(std::string("0") + b[1]); }

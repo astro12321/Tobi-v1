@@ -6,6 +6,7 @@
 
 #include <transport.hpp>
 #include <hex.hpp>
+#include <byte.hpp>
 #include <defaults.hpp>
 
 

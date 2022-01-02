@@ -4,9 +4,10 @@
 #include <sstream>
 #include <iomanip>
 
-#include <hex.hpp>
-#include <transport.hpp>
 #include <tcp.hpp>
+#include <transport.hpp>
+#include <hex.hpp>
+#include <byte.hpp>
 
 
 namespace tcp

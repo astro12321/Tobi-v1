@@ -8,6 +8,8 @@
 
 #include <hex.hpp>
 
+class byte;
+
 
 class Transport 
 {

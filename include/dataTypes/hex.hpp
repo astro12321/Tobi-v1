@@ -8,21 +8,7 @@
 #include <sstream>
 #include <iomanip>
 
-
-class byte
-{
-    private:
-        std::string b;
-
-    public:
-        byte();
-        byte(std::string byte);
-        int to_dec() const;
-        std::string to_string() const;
-        std::string to_fstring() const;
-        byte first() const;
-        byte last() const;
-};
+#include <byte.hpp>
 
 
 class hex

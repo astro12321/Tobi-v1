@@ -10,6 +10,7 @@
 
 class IP;
 class hex;
+class byte;
 
 
 namespace ipv4 //Namespace because this Hex class will have fields that are unique to ipv4

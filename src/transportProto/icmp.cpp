@@ -4,9 +4,10 @@
 #include <sstream>
 #include <iomanip>
 
-#include <hex.hpp>
-#include <transport.hpp>
 #include <icmp.hpp>
+#include <hex.hpp>
+#include <byte.hpp>
+#include <transport.hpp>
 #include <defaults.hpp>
 
 

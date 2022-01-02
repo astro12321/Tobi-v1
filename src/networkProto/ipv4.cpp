@@ -7,6 +7,7 @@
 #include <ipv4.hpp>
 #include <ip.hpp>
 #include <hex.hpp>
+#include <byte.hpp>
 #include <network.hpp>
 #include <defaults.hpp>
 

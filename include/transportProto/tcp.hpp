@@ -6,8 +6,10 @@
 #include <sstream>
 #include <iomanip>
 
+#include <transport.hpp>
+
 class hex;
-class Transport;
+class byte;
 
 
 namespace tcp
