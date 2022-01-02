@@ -43,7 +43,7 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
     this->additionalRRs = frame.getAdditionalRRs().to_dec();
 
     if (questions >= 1) //Doesn't support multiple queries (which is super rare)
-    { 
+    {
         hex hex = FindQueryHex(aHex.substr(12, aHex.numberOfBytes() - 12));
         
         this->query = dns::query::Query(hex);

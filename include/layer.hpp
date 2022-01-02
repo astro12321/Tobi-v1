@@ -11,7 +11,6 @@
 #include <transport.hpp>
 
 class Network;
-class Transport;
 class Application;
 
 

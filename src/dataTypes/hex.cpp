@@ -4,12 +4,17 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 #include <hex.hpp>
 #include <byte.hpp>
 
 
-hex::hex() { this->h = ""; }
+hex::hex() 
+{ 
+    this->h = "";
+    //this->b = stringToHex(""); //Resource intensive
+}
 
 
 hex::hex(std::string hex)
@@ -18,38 +23,68 @@ hex::hex(std::string hex)
         throw std::invalid_argument("the hex string must have an even number length");
     
     this->h = hex;
+    //this->b = stringToHex(hex); //Resource intensive
 }
 
 
 hex::hex(unsigned char *bytes, int len)
 {
-    this->len = len;
-    memcpy(&b, &bytes, sizeof(bytes));
-
-    std::stringstream ss;
-    ss << std::hex;
-
-    for (int i = 0; i < len; ++i)
-        ss << std::setw(2) << std::setfill('0') << (int)bytes[i];
-
-    this->h = ss.str();
+    this->b = std::vector<unsigned char>(bytes, bytes + len);
+    this->h = hexToString(b);
 }
 
 
-int hex::length() const { return this->len; } //Number of bytes read (aka bytesRead)
+//int hex::length() const { return this->len; } //Number of bytes read (aka bytesRead)
 int hex::numberOfBytes() const { return this->h.length() / 2; }
 
 int hex::to_dec() const { return std::stoul(this->h, nullptr, 16); }
 std::string hex::to_string() const { return this->h; }
 std::string hex::to_fstring() const { return "0x" + this->h; }
+std::string hex::convert_to_string() const { return std::string(b.begin(), b.end()); }
 
-const unsigned char &hex::getBytes() const { return *this->b; }
+const std::vector<unsigned char> &hex::getBytes() const { return this->b; }
 
-hex hex::substr(int start, int len) const { return hex(this->h.substr(start * 2, len * 2)); }
+hex hex::substr(int start, int len) const { //temp
+    return hex(this->h.substr(start * 2, len * 2)); 
+}
 
 //return hex values by bytes (so by pairs)
-byte hex::operator [] (size_t ind) const
-{
+const byte hex::operator [] (size_t ind) const {
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);
+}
+
+
+//Construct a char vector from a hex string
+std::vector<unsigned char> hex::stringToHex(std::string str)
+{
+    std::stringstream ss;
+    std::vector<unsigned char> hexVec;
+    int buffer;
+    size_t offset = 0;
+
+    while (offset < str.length()) 
+    {
+        ss.clear();
+        ss << std::hex << str.substr(offset, 2);
+        ss >> buffer;
+
+        hexVec.push_back(static_cast<unsigned char>(buffer));
+
+        offset += 2;
+    }
+
+    return hexVec;
+}
+
+
+std::string hex::hexToString(std::vector<unsigned char> vecHex)
+{
+    std::stringstream ss;
+    ss << std::hex;
+
+    for (size_t i = 0; i < vecHex.size(); ++i)
+        ss << std::setw(2) << std::setfill('0') << (int)vecHex[i];
+
+    return ss.str();
 }

@@ -119,7 +119,7 @@ int main(int argc, char *argv[])
         }
 
 
-        if(write(fd, &pkt.getHex().getBytes(), bytesRead) < 0) perror("Error writing to tun interface");
+        if(write(fd, &pkt.getHex().getBytes()[0], bytesRead) < 0) perror("Error writing to tun interface");
     }
 
 }

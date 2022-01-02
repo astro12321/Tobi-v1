@@ -7,6 +7,7 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 #include <byte.hpp>
 
@@ -15,24 +16,26 @@ class hex
 {
     private:
         std::string h;
-        unsigned char *b;
-        int len;
+        std::vector<unsigned char> b;
+
+        std::vector<unsigned char> stringToHex(std::string str);
+        std::string hexToString(std::vector<unsigned char> vecHex);
     
     public:
         hex();
         hex(std::string hex);
         hex(unsigned char *bytes, int len);
 
-        int length() const;
         int numberOfBytes() const;
         int to_dec() const;
         std::string to_string() const;
         std::string to_fstring() const;
-        const unsigned char &getBytes() const;
+        std::string convert_to_string() const;
+        const std::vector<unsigned char> &getBytes() const;
 
         hex substr (int start, int len) const;
 
-        byte operator [] (size_t ind) const;
+        const byte operator [] (size_t ind) const;
 };
 
 

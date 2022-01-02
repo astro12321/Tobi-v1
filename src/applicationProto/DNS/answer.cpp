@@ -5,12 +5,13 @@
 #include <iomanip>
 
 #include <hex.hpp>
-#include <query.hpp>
+#include <answer.hpp>
+#include <ip.hpp>
 
 
 namespace dns
 {
-    namespace query
+    namespace answer
     {
         Frame::Frame(hex &aHex): hex(aHex)
         {
@@ -25,22 +26,20 @@ namespace dns
         const hex &Frame::getName() const { return this->name; }
         const hex &Frame::getType() const { return this->type; }
         const hex &Frame::getClass() const { return this->_class; }
+        const hex &Frame::getTtl() const { return this->ttl; }
+        const hex &Frame::getAddress() const { return this->address; }
 
 
 
-        Query::Query(hex &hex)
+        Answer::Answer(hex &hex)
         {
             this->frame = Frame(hex);
 
             this->name = frame.getName().to_fstring();
             this->type = frame.getType().to_dec();
-            this->_class = frame.getClass().convert_to_string();
+            this->_class = frame.getClass().to_fstring();
         }
 
-
-        std::string Query::getName() const { return this->name; }
-        int Query::getType() const { return this->type; }
-        std::string Query::getClass() const { return this->_class; }
     }
 
 }
