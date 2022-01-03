@@ -39,8 +39,8 @@ class Ipv4 : public Network
 {
     private:
         ipv4::Frame frame;
-        IP source;
-        IP dest;
+        Address source;
+        Address dest;
         int ttl;
         int transportProto;
 

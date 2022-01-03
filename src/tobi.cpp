@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         hex packetHex = hex(buffer, bytesRead);
         Packet pkt(ind, packetHex);
 
-        if (pkt.getTransportProto() == "UDP")
+        if (pkt.getTransportProto() == "UDP" && pkt.getApplicationProto() == "DNS")
         {
             std::cout << "\n------------------------------------------------\n";
 
@@ -102,14 +102,22 @@ int main(int argc, char *argv[])
                             std::cout << "- DNS authorityRRs: " << pkt.getLayer().getApplication().getAuthorityRRs() << "\n";
                             std::cout << "- DNS AddRRs: " << pkt.getLayer().getApplication().getAdditionalRRs() << "\n";
                             std::cout << "\n";
-                            std::cout << "- DNS Query name: " << pkt.getLayer().getApplication().getQuery().getName() << "\n";
+                            std::cout << "- DNS Query name: " << pkt.getLayer().getApplication().getQuery().getName().to_string() << "\n";
                             std::cout << "- DNS Query type: " << pkt.getLayer().getApplication().getQuery().getType() << "\n";
                             std::cout << "- DNS Query class: " << pkt.getLayer().getApplication().getQuery().getClass() << "\n";
+                            for (size_t i = 0; i < pkt.getLayer().getApplication().getAnswers().size(); i++)
+                            {
+                                std::cout << "---------\n";
+                                std::cout << "- DNS Answer name: " << pkt.getLayer().getApplication().getAnswers()[i].getName() << "\n";
+                                std::cout << "- DNS Answer type: " << pkt.getLayer().getApplication().getAnswers()[i].getType() << "\n";
+                                std::cout << "- DNS Answer class: " << pkt.getLayer().getApplication().getAnswers()[i].getClass() << "\n";
+                                std::cout << "- DNS Answer ttl: " << pkt.getLayer().getApplication().getAnswers()[i].getTtl() << "\n";
+                                std::cout << "- DNS Answer addr: " << pkt.getLayer().getApplication().getAnswers()[i].getAddress().to_string() << "\n";
+                            }
                         }
 
                     }
                 }
-
 
                 std::cout << "\n";
             }

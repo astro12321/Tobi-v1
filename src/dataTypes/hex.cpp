@@ -9,12 +9,12 @@
 #include <hex.hpp>
 #include <byte.hpp>
 
-
+/*
 hex::hex() 
 { 
     this->h = "";
     //this->b = stringToHex(""); //Resource intensive
-}
+}*/
 
 
 hex::hex(std::string hex)
@@ -60,16 +60,13 @@ std::string hex::convert_to_string(int delimiter, std::string replacement) const
 
 const std::vector<unsigned char> &hex::getBytes() const { return this->b; }
 
-hex hex::substr(int start, int len) const {
-    return hex(this->h.substr(start * 2, len * 2)); 
-}
+hex hex::substr(int start, int len) const { return hex(this->h.substr(start * 2, len * 2)); }
 
 //return hex values by bytes (so by pairs)
 const byte hex::operator [] (size_t ind) const {
     if (ind * 2 + 1 > h.length()) throw std::out_of_range("hex array index out of range");
     return byte(std::string() + h[ind * 2] + h[ind * 2 + 1]);
 }
-
 
 //Construct a char vector from a hex string
 std::vector<unsigned char> hex::stringToHex(std::string str) const
@@ -92,7 +89,6 @@ std::vector<unsigned char> hex::stringToHex(std::string str) const
 
     return hexVec;
 }
-
 
 std::string hex::hexToString(std::vector<unsigned char> vecHex) const
 {

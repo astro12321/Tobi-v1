@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <ip.hpp>
+#include <address.hpp>
 #include <hex.hpp>
 
 
@@ -17,8 +17,8 @@ class Network
         int networkProto;
         int transportProto;
         int status;
-        IP source;
-        IP dest;
+        Address source;
+        Address dest;
     
     public:
         Network() = default;
@@ -27,8 +27,8 @@ class Network
 
         const hex &getHex() const;
 
-        IP getSource() const;
-        IP getDest() const;
+        Address getSource() const;
+        Address getDest() const;
         int getStatus() const;
         int getTransportProto() const;
         int getNetworkProto() const;
@@ -37,8 +37,8 @@ class Network
     
     protected:
         void setTransportProto(int transportProto);
-        void setSource(IP source);
-        void setDest(IP dest);
+        void setSource(Address source);
+        void setDest(Address dest);
         void setStatus(int status);
 };
 

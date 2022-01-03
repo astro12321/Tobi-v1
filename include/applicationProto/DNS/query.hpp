@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iomanip>
 
+#include <address.hpp>
+
 class hex;
 
 
@@ -34,7 +36,7 @@ namespace dns
         {
             private:
                 Frame frame;
-                std::string name;
+                Address name;
                 int type;
                 std::string _class;
 
@@ -42,7 +44,7 @@ namespace dns
                 Query() = default;
                 Query(hex &hex);
 
-                std::string getName() const;
+                const Address &getName() const;
                 int getType() const;
                 std::string getClass() const;
         };

@@ -5,7 +5,7 @@
 #include <iomanip>
 
 #include <ipv4.hpp>
-#include <ip.hpp>
+#include <address.hpp>
 #include <hex.hpp>
 #include <byte.hpp>
 #include <network.hpp>
@@ -33,8 +33,8 @@ Ipv4::Ipv4(hex &hex): Network(hex, 4)
 {
     this->frame = ipv4::Frame(hex); //ipv4::Frame(hex);
 
-    this->source = IP(frame.getSource());
-    this->dest = IP(frame.getDest());
+    this->source = Address(frame.getSource());
+    this->dest = Address(frame.getDest());
     this->ttl = frame.getTtl().to_dec();
     this->transportProto = frame.getTransportProto().to_dec();
     

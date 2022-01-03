@@ -1,6 +1,6 @@
 //Custom data types
-#ifndef IP_HPP
-#define IP_HPP
+#ifndef ADDRESS_HPP
+#define ADDRESS_HPP
 
 #include <iostream>
 #include <stdio.h>
@@ -11,19 +11,20 @@
 #include <hex.hpp>
 
 
-class IP
+class Address
 {
     private:
         hex h;
-        std::string ip;
+        std::string addr;
     
     public:
-        IP() = default;
-        IP(std::string ip);
-        IP(const hex &hex);
+        Address() = default;
+        Address(std::string addr);
+        Address(const hex &aHex, int type = 0);
 
         std::string to_string() const;
         const hex &to_hex() const;
+        void convertToIPv6();
 };
 
 

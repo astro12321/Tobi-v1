@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <ip.hpp>
+#include <address.hpp>
 
 class hex;
 
@@ -44,11 +44,17 @@ namespace dns
                 int type;
                 std::string _class;
                 int ttl;
-                IP address;
+                Address address;
 
             public:
                 Answer() = default;
-                Answer(hex &hex);
+                Answer(hex &aHex);
+
+                const std::string &getName() const;
+                int getType() const;
+                std::string getClass() const;
+                const int &getTtl() const;
+                const Address &getAddress() const;
         };
     }
 

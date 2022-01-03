@@ -3,12 +3,12 @@
 
 #include <string>
 
-class IP;
+class Address;
 
 
 extern int BUFFERSIZE;
 extern std::string UNDEF;
-extern IP INTIP;
+extern Address INTIP;
 
 
 #endif

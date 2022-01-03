@@ -8,6 +8,7 @@
 #include <application.hpp>
 #include <dns.hpp>
 #include <query.hpp>
+#include <answer.hpp>
 
 
 namespace dns
@@ -42,17 +43,51 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
     this->authorityRRs = frame.getAuthorityRRs().to_dec();
     this->additionalRRs = frame.getAdditionalRRs().to_dec();
 
+    int queryLen = 0;
+
     if (questions >= 1) //Doesn't support multiple queries (which is super rare)
     {
-        hex hex = FindQueryHex(aHex.substr(12, aHex.numberOfBytes() - 12));
+        queryLen = FindQueryNameLength(aHex.substr(12, aHex.numberOfBytes() - 12));
+
+        hex queryHex = aHex.substr(12, queryLen);
+
+        this->query = dns::query::Query(queryHex);
+    }
+
+    if (answerRRs >= 1)
+    {
+        int i = 0;
+        int answerLen = 0;
+        int start = queryLen + 12; //skip query + DNS headers
+
+        do {
+            answerLen = aHex.substr(start + 10, 2).to_dec() + 12;
+
+            hex answerHex = aHex.substr(start, answerLen);
+            this->answers.push_back(dns::answer::Answer(answerHex));
+
+            start += answerLen;
+            i++;
+        } while (i < answerRRs);
+
+        /*for (size_t i = 0; i < answers.size(); i++)
+        {
+            std::cout << "\n";
+            std::cout << "- DNS name: " << answers[i].getName() << "\n";
+            std::cout << "- DNS type: " << answers[i].getType() << "\n";
+            std::cout << "- DNS class: " << answers[i].getClass() << "\n";
+            std::cout << "- DNS ttl: " << answers[i].getTtl() << "\n";
+            std::cout << "- DNS addr: " << answers[i].getAddress().to_string() << "\n";
+            std::cout << "\n";
+        }*/
         
-        this->query = dns::query::Query(hex);
     }
     
 }
 
 
-hex DNS::FindQueryHex(hex hex) const
+//Find the name (FQDN) in the query fields from the whole packet hex (because it's length vary)
+int DNS::FindQueryNameLength(hex hex) const
 {
     int i = 0;
     
@@ -68,7 +103,8 @@ hex DNS::FindQueryHex(hex hex) const
         i += len + 1;
     }
 
-    return hex.substr(0, i + 4); //Adding the 4 bytes of the end (DNS type and class)
+    return i + 4;
+    //return hex.substr(0, i + 4); //Adding the 4 bytes of the end (DNS type and class)
 }
 
 
@@ -79,3 +115,4 @@ int DNS::getAnswerRRs() const { return this->answerRRs; }
 int DNS::getAuthorityRRs() const { return this->authorityRRs; }
 int DNS::getAdditionalRRs() const { return this->additionalRRs; }
 const dns::query::Query &DNS::getQuery() const { return this->query; }
+const std::vector<dns::answer::Answer> &DNS::getAnswers() const { return this->answers; }

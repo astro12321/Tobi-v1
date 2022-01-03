@@ -22,7 +22,7 @@ class hex
         std::string hexToString(std::vector<unsigned char> vecHex) const;
     
     public:
-        hex();
+        hex() = default;
         hex(std::string hex);
         hex(unsigned char *bytes, int len);
 

@@ -1,9 +1,9 @@
 #include <string>
 
 #include <defaults.hpp>
-#include <ip.hpp>
+#include <address.hpp>
 
 
 int BUFFERSIZE = 4096;
 std::string UNDEF = "undef";
-IP INTIP = IP("10.0.0.2");
+Address INTIP = Address("10.0.0.2");

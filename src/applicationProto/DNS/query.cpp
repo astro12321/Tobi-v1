@@ -6,6 +6,7 @@
 
 #include <hex.hpp>
 #include <query.hpp>
+#include <address.hpp>
 
 
 namespace dns
@@ -32,13 +33,13 @@ namespace dns
         {
             this->frame = Frame(hex);
 
-            this->name = frame.getName().convert_to_string();
+            this->name = Address(frame.getName());
             this->type = frame.getType().to_dec();
             this->_class = frame.getClass().to_fstring();
         }
 
 
-        std::string Query::getName() const { return this->name; }
+        const Address &Query::getName() const { return this->name; }
         int Query::getType() const { return this->type; }
         std::string Query::getClass() const { return this->_class; }
     }

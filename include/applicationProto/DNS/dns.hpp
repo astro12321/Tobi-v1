@@ -8,6 +8,7 @@
 
 #include <application.hpp>
 #include <query.hpp>
+#include <answer.hpp>
 
 class hex;
 
@@ -50,8 +51,9 @@ class DNS : public Application
         int authorityRRs;
         int additionalRRs;
         dns::query::Query query;
+        std::vector<dns::answer::Answer> answers;
 
-        hex FindQueryHex(hex hex) const;
+        int FindQueryNameLength(hex hex) const;
 
     public:
         DNS() = default;
@@ -64,6 +66,7 @@ class DNS : public Application
         int getAuthorityRRs() const;
         int getAdditionalRRs() const;
         const dns::query::Query &getQuery() const;
+        const std::vector<dns::answer::Answer> &getAnswers() const;
 
 };
 
