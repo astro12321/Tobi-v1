@@ -32,9 +32,9 @@ namespace dns
         {
             this->frame = Frame(hex);
 
-            this->name = frame.getName().to_fstring();
+            this->name = frame.getName().convert_to_string();
             this->type = frame.getType().to_dec();
-            this->_class = frame.getClass().convert_to_string();
+            this->_class = frame.getClass().to_fstring();
         }
 
 

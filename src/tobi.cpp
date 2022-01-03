@@ -1,5 +1,3 @@
-//g++ -o tobi **/*.cpp -I ~/Tobi/src -I ~/Tobi/src/applicationProto -I ~/Tobi/src/networkProto -I ~/Tobi/src/transportProto -I ~/Tobi/src/layers -I ~/Tobi/src/dataTypes && sudo ./tobi
-//sudo valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./tobi
 //for debug: https://hpd.gasmi.net/
 #include <iostream>
 #include <string.h>
@@ -55,7 +53,7 @@ int main(int argc, char *argv[])
         hex packetHex = hex(buffer, bytesRead);
         Packet pkt(ind, packetHex);
 
-        if (1/*pkt.getTransportProto() == "UDP"*/)
+        if (pkt.getTransportProto() == "UDP")
         {
             std::cout << "\n------------------------------------------------\n";
 
@@ -68,7 +66,7 @@ int main(int argc, char *argv[])
                 std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
 
                 if (pkt.getLayer().transportIsValid()) {
-                    if (pkt.getTransportProto() == "ICMP") { //ICMP
+                    /*if (pkt.getTransportProto() == "ICMP") { //ICMP
                         std::cout << "- Transport code: " << pkt.getLayer().getTransport().getCode() << "\n";
                         std::cout << "- Transport type: " << pkt.getLayer().getTransport().getType() << "\n";
                         std::cout << "- Transport csum: " << pkt.getLayer().getTransport().getCsum() << "\n";
@@ -90,7 +88,7 @@ int main(int argc, char *argv[])
                         std::cout << "- Transport source: " << pkt.getLayer().getTransport().getSource() << "\n";
                         std::cout << "- Transport dest: " << pkt.getLayer().getTransport().getDest() << "\n";
                         std::cout << "- Transport csum: " << pkt.getLayer().getTransport().getCsum() << "\n";
-                    }
+                    }*/
 
                     if (pkt.getLayer().applicationIsValid()) {
                         if (pkt.getLayer().getApplication().getProto() == "DNS") {
@@ -111,6 +109,7 @@ int main(int argc, char *argv[])
 
                     }
                 }
+
 
                 std::cout << "\n";
             }

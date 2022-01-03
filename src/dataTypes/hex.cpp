@@ -40,11 +40,27 @@ int hex::numberOfBytes() const { return this->h.length() / 2; }
 int hex::to_dec() const { return std::stoul(this->h, nullptr, 16); }
 std::string hex::to_string() const { return this->h; }
 std::string hex::to_fstring() const { return "0x" + this->h; }
-std::string hex::convert_to_string() const { return std::string(b.begin(), b.end()); }
+
+std::string hex::convert_to_string(int delimiter, std::string replacement) const
+{
+    std::string fin = "";
+    size_t len = h.length() / 2;
+
+    for (size_t i = 0; i < len; i++)
+    {
+        std::string tmp = std::string() + h[i * 2] + h[i * 2 + 1];
+        int letterCode = std::stoul(tmp, nullptr, 16);
+
+        if (letterCode > delimiter) fin += (char)letterCode; //If the letter is above the delimiter (refer to the ASCII table to understand the delimiter)
+        else if (i != 0 && i != len - 1) fin += replacement; //If it's not, replace the letter by the replacement var (of course not the first or last letter)
+    }
+
+    return fin;
+}
 
 const std::vector<unsigned char> &hex::getBytes() const { return this->b; }
 
-hex hex::substr(int start, int len) const { //temp
+hex hex::substr(int start, int len) const {
     return hex(this->h.substr(start * 2, len * 2)); 
 }
 
@@ -56,7 +72,7 @@ const byte hex::operator [] (size_t ind) const {
 
 
 //Construct a char vector from a hex string
-std::vector<unsigned char> hex::stringToHex(std::string str)
+std::vector<unsigned char> hex::stringToHex(std::string str) const
 {
     std::stringstream ss;
     std::vector<unsigned char> hexVec;
@@ -78,7 +94,7 @@ std::vector<unsigned char> hex::stringToHex(std::string str)
 }
 
 
-std::string hex::hexToString(std::vector<unsigned char> vecHex)
+std::string hex::hexToString(std::vector<unsigned char> vecHex) const
 {
     std::stringstream ss;
     ss << std::hex;
