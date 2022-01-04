@@ -60,10 +60,10 @@ int main(int argc, char *argv[])
             std::cout << pkt.getIndex() << ". Packet read: " << pkt.getHex().to_string() << "\n";
 
             if (pkt.getLayer().networkIsValid()) {
-                std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource().to_string() << "\n";
+                /*std::cout << "- Source IP: " << pkt.getLayer().getNetwork().getSource().to_string() << "\n";
                 std::cout << "- Dest IP: " << pkt.getLayer().getNetwork().getDest().to_string() << "\n";
                 std::cout << "- Network Protocol: " << pkt.getNetworkProto() << "\n";
-                std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";
+                std::cout << "- Transport Protocol: " << pkt.getTransportProto() << "\n";*/
 
                 if (pkt.getLayer().transportIsValid()) {
                     /*if (pkt.getTransportProto() == "ICMP") { //ICMP
@@ -105,18 +105,39 @@ int main(int argc, char *argv[])
                             std::cout << "- DNS Query name: " << pkt.getLayer().getApplication().getQuery().getName().to_string() << "\n";
                             std::cout << "- DNS Query type: " << pkt.getLayer().getApplication().getQuery().getType() << "\n";
                             std::cout << "- DNS Query class: " << pkt.getLayer().getApplication().getQuery().getClass() << "\n";
-                            for (size_t i = 0; i < pkt.getLayer().getApplication().getAnswers().size(); i++)
+
+                            if (pkt.getLayer().getApplication().getAnswerRRs() >= 1)
                             {
-                                std::cout << "---------\n";
-                                std::cout << "- DNS Answer name: " << pkt.getLayer().getApplication().getAnswers()[i].getName() << "\n";
-                                std::cout << "- DNS Answer type: " << pkt.getLayer().getApplication().getAnswers()[i].getType() << "\n";
-                                std::cout << "- DNS Answer class: " << pkt.getLayer().getApplication().getAnswers()[i].getClass() << "\n";
-                                std::cout << "- DNS Answer ttl: " << pkt.getLayer().getApplication().getAnswers()[i].getTtl() << "\n";
-                                std::cout << "- DNS Answer addr: " << pkt.getLayer().getApplication().getAnswers()[i].getAddress().to_string() << "\n";
+                                for (size_t i = 0; i < pkt.getLayer().getApplication().getAnswers().size(); i++)
+                                {
+                                    std::cout << "---------\n";
+                                    std::cout << "- DNS Answer name: " << pkt.getLayer().getApplication().getAnswers()[i].getName() << "\n";
+                                    std::cout << "- DNS Answer type: " << pkt.getLayer().getApplication().getAnswers()[i].getType() << "\n";
+                                    std::cout << "- DNS Answer class: " << pkt.getLayer().getApplication().getAnswers()[i].getClass() << "\n";
+                                    std::cout << "- DNS Answer ttl: " << pkt.getLayer().getApplication().getAnswers()[i].getTtl() << "\n";
+                                    std::cout << "- DNS Answer addr: " << pkt.getLayer().getApplication().getAnswers()[i].getAddress().to_string() << "\n";
+                                }
                             }
+
+                            if (pkt.getLayer().getApplication().getAuthorityRRs() >= 1)
+                            {
+                                std::cout << "- DNS Authority name: " << pkt.getLayer().getApplication().getAuthority().getName().to_string() << "\n";
+                                std::cout << "- DNS Authority type: " << pkt.getLayer().getApplication().getAuthority().getType() << "\n";
+                                std::cout << "- DNS Authority class: " << pkt.getLayer().getApplication().getAuthority().getClass() << "\n";
+                                std::cout << "- DNS Authority ttl: " << pkt.getLayer().getApplication().getAuthority().getTtl() << "\n";
+                                std::cout << "- DNS Authority primaryNameServer: " << pkt.getLayer().getApplication().getAuthority().getPrimaryNameServer().to_string() << "\n";
+                                std::cout << "- DNS Authority responsibleAuthorityMailbox: " << pkt.getLayer().getApplication().getAuthority().getResponsibleAuthorityMailbox().to_string() << "\n";
+                                std::cout << "- DNS Authority SN: " << pkt.getLayer().getApplication().getAuthority().getSerialNumber() << "\n";
+                                std::cout << "- DNS Authority refreshInterval: " << pkt.getLayer().getApplication().getAuthority().getRefreshInterval() << "\n";
+                                std::cout << "- DNS Authority retryInterval: " << pkt.getLayer().getApplication().getAuthority().getRetryInterval() << "\n";
+                                std::cout << "- DNS Authority expireLimit: " << pkt.getLayer().getApplication().getAuthority().getExpireLimit() << "\n";
+                                std::cout << "- DNS Authority minimumTtl: " << pkt.getLayer().getApplication().getAuthority().getMinimumTtl() << "\n";
+                            }
+
                         }
 
                     }
+
                 }
 
                 std::cout << "\n";

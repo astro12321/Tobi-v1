@@ -7,8 +7,8 @@
 #include <hex.hpp>
 #include <application.hpp>
 #include <dns.hpp>
-#include <query.hpp>
-#include <answer.hpp>
+#include <DNS/query.hpp>
+#include <DNS/answer.hpp>
 
 
 namespace dns
@@ -43,25 +43,28 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
     this->authorityRRs = frame.getAuthorityRRs().to_dec();
     this->additionalRRs = frame.getAdditionalRRs().to_dec();
 
-    int queryLen = 0;
+    int lenSoFar = 0;
 
     if (questions >= 1) //Doesn't support multiple queries (which is super rare)
     {
-        queryLen = FindQueryNameLength(aHex.substr(12, aHex.numberOfBytes() - 12));
+        lenSoFar = FindQueryNameLength(aHex.substr(12, aHex.numberOfBytes() - 12));
 
-        hex queryHex = aHex.substr(12, queryLen);
+        hex queryHex = aHex.substr(12, lenSoFar);
 
         this->query = dns::query::Query(queryHex);
+
+        lenSoFar += 12; //Adding headers
     }
 
     if (answerRRs >= 1)
     {
         int i = 0;
         int answerLen = 0;
-        int start = queryLen + 12; //skip query + DNS headers
+        int start = lenSoFar; //skip query + DNS headers
 
         do {
-            answerLen = aHex.substr(start + 10, 2).to_dec() + 12;
+            int addrLenByte = aHex.substr(start + 10, 2).to_dec(); //This is the byte specifying how long the address will be (doesn't work like the rest of the DNS protocol where the length is specified between each words is the FQDN)
+            answerLen = addrLenByte + 12;
 
             hex answerHex = aHex.substr(start, answerLen);
             this->answers.push_back(dns::answer::Answer(answerHex));
@@ -70,17 +73,15 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
             i++;
         } while (i < answerRRs);
 
-        /*for (size_t i = 0; i < answers.size(); i++)
-        {
-            std::cout << "\n";
-            std::cout << "- DNS name: " << answers[i].getName() << "\n";
-            std::cout << "- DNS type: " << answers[i].getType() << "\n";
-            std::cout << "- DNS class: " << answers[i].getClass() << "\n";
-            std::cout << "- DNS ttl: " << answers[i].getTtl() << "\n";
-            std::cout << "- DNS addr: " << answers[i].getAddress().to_string() << "\n";
-            std::cout << "\n";
-        }*/
-        
+        lenSoFar = start; //The start is now the equivalent of the last DNS answer in the packet, so this is where we are to begin parsing the rest of the packet
+    }
+
+    if (authorityRRs >= 1) //Doesn't support multiple authoritative nameservers (which cannot happen, I don't think)
+    {
+        //This passes the rest of the hex instead of only the part that we want, could be unsafe but in 99% of the time ok
+        hex authorityHex = aHex.substr(lenSoFar, aHex.numberOfBytes() - lenSoFar); 
+
+        this->authority = dns::authority::Authority(authorityHex);
     }
     
 }
@@ -104,7 +105,6 @@ int DNS::FindQueryNameLength(hex hex) const
     }
 
     return i + 4;
-    //return hex.substr(0, i + 4); //Adding the 4 bytes of the end (DNS type and class)
 }
 
 
@@ -116,3 +116,4 @@ int DNS::getAuthorityRRs() const { return this->authorityRRs; }
 int DNS::getAdditionalRRs() const { return this->additionalRRs; }
 const dns::query::Query &DNS::getQuery() const { return this->query; }
 const std::vector<dns::answer::Answer> &DNS::getAnswers() const { return this->answers; }
+const dns::authority::Authority &DNS::getAuthority() const { return this->authority; }

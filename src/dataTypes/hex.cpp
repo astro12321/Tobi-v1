@@ -5,16 +5,17 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <bitset>
 
 #include <hex.hpp>
 #include <byte.hpp>
 
-/*
+
 hex::hex() 
 { 
-    this->h = "";
+    this->h = "00";
     //this->b = stringToHex(""); //Resource intensive
-}*/
+}
 
 
 hex::hex(std::string hex)

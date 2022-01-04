@@ -7,8 +7,10 @@
 #include <iomanip>
 
 #include <hex.hpp>
+
 namespace dns { namespace query { class Query; } }
 namespace dns { namespace answer { class Answer; } }
+namespace dns { namespace authority { class Authority; } }
 
 
 class Application 
@@ -34,6 +36,7 @@ class Application
         virtual int getAdditionalRRs() const;
         const virtual dns::query::Query &getQuery() const;
         const virtual std::vector<dns::answer::Answer> &getAnswers() const;
+        const virtual dns::authority::Authority &getAuthority() const;
 };
 
 

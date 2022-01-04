@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sstream>
 #include <iomanip>
+#include <bitset>
 
 #include <byte.hpp>
 
@@ -22,6 +23,7 @@ int byte::to_dec() const { return std::stoul(b, nullptr, 16); }
 
 std::string byte::to_string() const { return b; }
 std::string byte::to_fstring() const { return "0x" + this->b; }
+std::string byte::to_bits() const { return std::bitset<8>(to_dec()).to_string(); }
 
 byte byte::first() const { return byte(std::string("0") + b[0]); }
 byte byte::last() const { return byte(std::string("0") + b[1]); }

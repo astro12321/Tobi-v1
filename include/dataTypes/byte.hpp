@@ -20,6 +20,7 @@ class byte
         int to_dec() const;
         std::string to_string() const;
         std::string to_fstring() const;
+        std::string to_bits() const;
         byte first() const;
         byte last() const;
 };

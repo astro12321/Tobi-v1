@@ -52,7 +52,10 @@ Address::Address(const hex &aHex, int type)
 
 }
 
-Address::Address(std::string addr) { this->addr = addr; }
+Address::Address(std::string addr) { 
+    this->addr = addr;
+    //this->h = hex("");
+}
 
 std::string Address::to_string() const { return this->addr; }
 const hex &Address::to_hex() const { return this->h; }
