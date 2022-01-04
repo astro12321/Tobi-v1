@@ -82,6 +82,8 @@ DNS::DNS(hex &aHex): Application(aHex, "DNS")
         hex authorityHex = aHex.substr(lenSoFar, aHex.numberOfBytes() - lenSoFar); 
 
         this->authority = dns::authority::Authority(authorityHex);
+
+        //lenSoFar += authority.getHexLength();
     }
     
 }

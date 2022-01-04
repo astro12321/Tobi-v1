@@ -61,6 +61,7 @@ std::string hex::convert_to_string(int delimiter, std::string replacement) const
 
 const std::vector<unsigned char> &hex::getBytes() const { return this->b; }
 
+//substr doesn't cut the byte array, which could lead to problem
 hex hex::substr(int start, int len) const { return hex(this->h.substr(start * 2, len * 2)); }
 
 //return hex values by bytes (so by pairs)

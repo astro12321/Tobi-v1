@@ -31,7 +31,6 @@ class hex
         std::string to_string() const;
         std::string to_fstring() const;
         std::string convert_to_string(int delimiter = 31, std::string replacement = ".") const;
-
         const std::vector<unsigned char> &getBytes() const;
 
         hex substr (int start, int len) const;
