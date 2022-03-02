@@ -7,3 +7,5 @@ cd Tobi/
 sudo ./createInterface
 make && ./bin/tobi
 ```
+
+Not finished...
