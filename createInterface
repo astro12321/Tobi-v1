@@ -1,18 +1,25 @@
 #!/bin/bash
 
-ip tuntap add dev tun0 mode tun
-ip link set up dev tun0
-ip a add 10.0.0.1/24 dev tun0
+TUN=tun0
+ETH_INT=enp1s0
+TUN_ADDR=10.0.0.1
+TUN_ADDR_SUBNET=24
+TUN_ADDR_SRC=10.0.0.2 #Needs to be different from $TUN_ADDR to trick the kernel in processing the packets to the normal network stack (being the TUN interface in our case)
+IPROUTE2_TABLE_NAME=astro
 
-echo 1 > /proc/sys/net/ipv4/conf/tun0/accept_local
-sysctl net.ipv4.ip_forward=1
+ip tuntap add dev $TUN mode tun
+ip link set up dev $TUN
+ip a add $TUN_ADDR/$TUN_ADDR_SUBNET dev $TUN
 
-echo "200 astro" > /etc/iproute2/rt_tables 
+echo 1 > /proc/sys/net/ipv4/conf/$TUN/accept_local
+echo 1 > /proc/sys/net/ipv4/ip_forward
 
-ip rule add from all lookup astro
-ip route add default dev tun0 table astro
-ip rule add iif tun0 lookup main priority 500
+echo "200 $IPROUTE2_TABLE_NAME" > /etc/iproute2/rt_tables 
+
+ip rule add from all lookup $IPROUTE2_TABLE_NAME
+ip route add default dev $TUN table $IPROUTE2_TABLE_NAME
+ip rule add iif $TUN lookup main priority 500
 
 #Route responses through the TUN interface
-iptables -t nat -A POSTROUTING -o tun0 -s 10.0.0.1 -j SNAT --to-source 10.0.0.2
-iptables -t nat -A POSTROUTING -o ens32 -s 10.0.0.2 -j MASQUERADE
+iptables -t nat -A POSTROUTING -o $TUN -s $TUN_ADDR -j SNAT --to-source $TUN_ADDR_SRC
+iptables -t nat -A POSTROUTING -o $ETH_INT -s $TUN_ADDR_SRC -j MASQUERADE

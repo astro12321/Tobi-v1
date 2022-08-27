@@ -1,0 +1,16 @@
+#!/bin/bash
+
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -t nat -F
+iptables -t mangle -F
+iptables -F
+iptables -X
+
+echo 0 > /proc/sys/net/ipv4/conf/tun0/accept_local
+echo 0 > /proc/sys/net/ipv4/ip_forward
+
+ip rule del from all lookup astro
+ip route del default dev tun0 table astro
+ip rule del iif tun0 lookup main priority 500
