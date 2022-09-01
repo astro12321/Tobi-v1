@@ -1,1 +1,0 @@
-g++ main.cpp -o main.out -lpcap -lpthread -lPcap++ -lPacket++ -lCommon++ -fPIC -std=c++11 -O2 -g -Wall -IPcapPlusPlus/Dist/header && ./main.out

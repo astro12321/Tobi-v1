@@ -7,5 +7,6 @@ Get started with :
 ```
 cd Tobi-v1/
 sudo ./createInterface
-./exec
+make
+./tobi.out
 ```
