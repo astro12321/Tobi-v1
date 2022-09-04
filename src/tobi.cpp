@@ -10,6 +10,9 @@
 #include <sstream>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <chrono>
+#include <queue>
 
 #include <GUI.cpp>
 
@@ -18,6 +21,10 @@
 #include <RawPacket.h>
 
 #define BUFFERSIZE 4096
+
+
+std::queue<std::string> packetQueue;
+std::mutex packetQueue_mutex;
 
 
 int opentun(char *devname, int *fd) {
@@ -42,6 +49,7 @@ int opentun(char *devname, int *fd) {
     return 0;
 }
 
+
 //Only for testing
 std::string hexStr(const uint8_t *data, int len) {
     std::stringstream ss;
@@ -53,16 +61,34 @@ std::string hexStr(const uint8_t *data, int len) {
     return ss.str();
 }
 
-int main(int argc, char *argv[]) {
-    int fd, bytesRead, ind;
+
+void updatePacketCaptureUI(){
+	while (true) {
+		if (packetQueue_mutex.try_lock()) { //Need to lock before checking if the queue is empty
+			if (!packetQueue.empty()) {
+				//Copy the item in the queue
+				std::string temp = packetQueue.front();
+				packetQueue.pop();
+				packetQueue_mutex.unlock(); //Immediately unlock the queue
+
+				//Proceeds with operations
+				addSelectable(temp);
+				std::this_thread::sleep_for(std::chrono::milliseconds(250));
+			}
+			else packetQueue_mutex.unlock();
+		}
+	}
+}
+
+
+void capturePacket(){
+	int fd, bytesRead, ind;
     char devname[] = "tun0";
     unsigned char buffer[BUFFERSIZE];
 
     opentun(devname, &fd);
 
     ind = 0;
-
-	std::thread guiThread(&startGUI);
 
     while (true) {
         ind++;
@@ -71,23 +97,39 @@ int main(int argc, char *argv[]) {
         if (bytesRead < 0)
             perror("Error reading from tun interface");
 
-        ///////////////////////This slows down the program because it gotta wait on the terminal to proceeds with packets
-        timeval tm;
-        gettimeofday(&tm, NULL);
 
-        pcpp::RawPacket rawPacket((uint8_t *)buffer, bytesRead, tm, false, pcpp::LinkLayerType::LINKTYPE_RAW);
-        pcpp::Packet parsedPacket(&rawPacket);
-        pcpp::IPv4Address srcIP = parsedPacket.getLayerOfType<pcpp::IPv4Layer>()->getSrcIPv4Address();
-        pcpp::IPv4Address destIP = parsedPacket.getLayerOfType<pcpp::IPv4Layer>()->getDstIPv4Address();
+        ///////////////////////Packet parsing usin PcapPlusPlus
+        //timeval tm;
+        //gettimeofday(&tm, NULL);
 
-        std::cout << "\nPacket " << ind << ": " << std::endl << "srcIP: " << srcIP << std::endl << "dstIP: " << destIP << std::endl;
-        ///////////////////////
+        //pcpp::RawPacket rawPacket((uint8_t *)buffer, bytesRead, tm, false, pcpp::LinkLayerType::LINKTYPE_RAW);
+        //pcpp::Packet parsedPacket(&rawPacket);
+        //pcpp::IPv4Address srcIP = parsedPacket.getLayerOfType<pcpp::IPv4Layer>()->getSrcIPv4Address();
+        //pcpp::IPv4Address destIP = parsedPacket.getLayerOfType<pcpp::IPv4Layer>()->getDstIPv4Address();
 
-        // std::cout << "\nPacket " << ind << "." << std::endl << hexStr(buffer, bytesRead) << std::endl;
+		//std::cout << "\nPacket " << ind << ": " << std::endl << "srcIP: " << srcIP << std::endl << "dstIP: " << destIP << std::endl;
+        //////////////////////
+
+
+		std::string pktStr(std::to_string(ind) + ". " + hexStr(buffer, bytesRead));
+
+		//Lock the queue and push the packet string
+		packetQueue_mutex.lock(); //Wait to acquire the lock, doing "packetQueue_mutex.unlock()" just before would unlock the other thread (wether the other thread is locked or not), which is dangerous, but maybe faster ?
+		packetQueue.push(pktStr);
+		packetQueue_mutex.unlock();
 
         if (write(fd, buffer, bytesRead) < 0)
             perror("Error writing to tun interface");
     }
 
-	guiThread.join();
+}
+
+int main(int argc, char *argv[]) {
+	std::thread updateUIThread(&updatePacketCaptureUI);
+	std::thread captureThread(&capturePacket);
+
+	startGUI(); //imgui needs to run in main thread
+
+	captureThread.join();
+	updateUIThread.join();
 }
